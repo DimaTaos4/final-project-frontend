@@ -1,0 +1,91 @@
+.troublePage {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 45px 0 45px;
+    border: 1px solid var(--border-block-color);
+    width: 390px;
+    position: relative;
+    margin-top: 84px;
+}
+
+.troublePage h2 {
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+
+.infoIfTrouble {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #737373;
+    margin: 12px 0 13px 0;
+}
+
+.input {
+    width: 100%;
+    padding: 11px 0 11px 8px;
+    background: #FAFAFA;
+    border: 1px solid var(--border-block-color);
+    border-radius: 3px;
+    color: #737373;
+    margin-top: 8px;
+}
+
+.input::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    color: #C7C7C7;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.btnReset {
+    margin-top: 16px;
+    padding: 7px 82px;
+    white-space: nowrap;
+    margin-bottom: 66.3px;
+}
+
+.orForgetPass {
+    display: flex;
+    align-items: center;
+    gap: 17.8px;
+    margin-bottom: 17px;
+    color: #737373;
+}
+
+.orForgetPass span {
+    width: 125px;
+    border: 1px solid var(--border-block-color);
+}
+
+.createNewAcc {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    color: #000;
+    margin-bottom: 129px;
+}
+
+.backToLogin {
+    background-color: var(--border-block-color);
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #262626;
+    padding: 14px 150px;
+}

@@ -1,0 +1,136 @@
+.registerPage {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 81px;
+}
+
+.registerBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border-block-color);
+    width: 350px;
+    padding: 19px 40px 30px 40px;
+}
+
+.infoSignUp {
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    color: #737373;
+    line-height: 20px;
+    margin-bottom: 36px;
+}
+
+.divForm {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 36px;
+}
+
+.input {
+    width: 100%;
+    padding: 11px 0 11px 8px;
+    background: #FAFAFA;
+    border: 1px solid var(--border-block-color);
+    border-radius: 3px;
+    color: #737373;
+}
+
+.input::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}
+
+.info1 {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+    text-align: center;
+    line-height: 16px;
+}
+
+.info1 span {
+    white-space: nowrap;
+}
+
+.info1 a {
+    color: #00376B;
+}
+
+.info2 {
+    text-align: center;
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+    margin: 18px 0 27px 0;
+    line-height: 16px;
+}
+
+.info2 a {
+    color: #00376B;
+}
+
+.btnSignUp {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 7px 108px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.blockLinkToLogIn {
+    display: flex;
+    border: 1px solid var(--border-block-color);
+    padding: 23px 74px;
+    gap: 4px;
+    width: 350px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.blockLinkToLogIn span {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.blockLinkToLogIn span:nth-of-type(2) a {
+    font-weight: 600;
+    color: #0095F6;
+}
+
+.btnSignUp {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 7px 108px;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btnLoading {
+    background-color: #b2dffc;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.btnRegistered {
+    background-color: #4BB543;
+    cursor: default;
+}

@@ -1,0 +1,151 @@
+.editProfile {
+    display: flex;
+    flex-direction: column;
+    padding: 48px 418px 117px 167px;
+}
+
+.editProfile h2 {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.infoProfile {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: #EFEFEF;
+    border-radius: 20px;
+    width: 610px;
+    margin-top: 44px;
+}
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--border-block-color);
+    margin-right: 16px;
+}
+
+.infoText {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.infoText h2 {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.infoText p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #737373;
+    width: 265px;
+}
+
+.avatarButtons {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.avatarButton,
+.removeAvatar {
+    background-color: var(--backgroundColorButton);
+    padding: 8px 16px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    border: none;
+}
+
+.avatarButton:hover {
+    background-color: var(--backgroundColorButtonHover, #37b53d);
+}
+
+.removeAvatar:hover {
+    background-color: var(--backgroundColorButtonHover, #e44343);
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 610px;
+    margin-top: 33px;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+
+}
+
+.label input {
+    padding: 12px 0 12px 17px;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #DBDBDB;
+}
+
+.textareaWrapper {
+    position: relative;
+}
+
+.textarea {
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    padding: 12px 0 12px 17px;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #DBDBDB;
+}
+
+.charCount {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 12px;
+    color: #8e8e8e;
+    background-color: white;
+    padding-left: 4px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.saveEditButton {
+    width: 268px;
+}
+
+.loading {
+    color: #555;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}

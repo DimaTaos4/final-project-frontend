@@ -1,0 +1,219 @@
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    padding: 47px 0 0 0;
+}
+
+.postModal {
+    width: 1200px;
+    height: 722px;
+    background-color: #fff;
+    z-index: 1001;
+    border-radius: 3px;
+    display: flex;
+
+}
+
+.blockImage {
+    flex: 1.5;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid var(--border-block-color);
+}
+
+.blockImage:hover .prevBtn,
+.blockImage:hover .nextBtn {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.rightBlock {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.headerBlockImage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px;
+    border-bottom: 1px solid var(--border-block-color);
+}
+
+.avaUsername {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avaUsername img {
+    border-radius: 50%;
+}
+
+.ava {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btnEdit {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.blockInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 14px 0 14px;
+
+}
+
+.info {
+    display: flex;
+    gap: 15px;
+}
+
+.info img {
+    border-radius: 50%;
+}
+
+.infoText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15.25px;
+    vertical-align: middle;
+}
+
+.infoText>.username {
+    margin-right: 2px;
+}
+
+.time {
+    font-weight: 400;
+    font-size: 10.17px;
+    line-height: 13.56px;
+    color: #737373;
+    margin-left: 42px;
+    margin-top: 7px;
+
+}
+
+.footerBlockImage {
+    display: flex;
+    flex-direction: column;
+}
+
+.likeCommentBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 14px;
+    border-top: 1px solid var(--border-block-color);
+}
+
+.likeComment {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.imageInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.likes {
+    font-weight: 600;
+    line-height: 15.25px;
+    font-size: 11px;
+}
+
+.timeInLikeComment {
+    color: #737373;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13.56px;
+}
+
+.likeIcon,
+.commentIcon {
+    cursor: pointer;
+}
+
+.prevBtn,
+.nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 6px 10px;
+    cursor: pointer;
+    z-index: 2;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.prevBtn {
+    left: 10px;
+}
+
+.nextBtn {
+    right: 10px;
+}
+
+
+.modalCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.scrollContent {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 14px 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+    /* важно для прокрутки внутри flex-контейнера */
+}
+
+/* (опционально) стили скроллбара */
+.scrollContent::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollContent::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}

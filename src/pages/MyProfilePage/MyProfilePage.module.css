@@ -1,0 +1,77 @@
+.myProfilePage {
+    display: flex;
+    flex-direction: column;
+    padding: 38px 110px 0 110px;
+}
+
+.myProfileBlock {
+    display: flex;
+    align-items: center;
+    gap: 94px;
+
+}
+
+.myProfileAvatar img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.myProfileBlockInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.myProfileNameEdit {
+    display: flex;
+    align-items: center;
+    gap: 23px;
+}
+
+.username {
+    font-weight: 400;
+    font-size: 19.84px;
+}
+
+.btnEdit {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #EFEFEF;
+    color: #000;
+}
+
+.audience {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-top: 28px;
+    margin-bottom: 20px;
+}
+
+.audience span {
+    font-weight: 600;
+}
+
+.audience p {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.myProfileAbout {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.link {
+    margin-top: 18.5px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #00376B;
+}

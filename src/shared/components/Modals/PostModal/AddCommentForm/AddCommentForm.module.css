@@ -1,0 +1,43 @@
+.commentForm {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-block-color);
+    padding: 14px;
+}
+
+.input {
+    width: 100%;
+    border: none;
+    margin-left: 14px;
+    outline: none
+}
+
+.input::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btnSend {
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    color: #0095F6;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-left: 14px;
+    margin-bottom: 8px;
+}
+

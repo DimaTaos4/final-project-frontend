@@ -1,0 +1,91 @@
+.loginPage {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 86px;
+}
+
+.blocksForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.blockForm1 {
+    border: 1px solid var(--border-block-color);
+    border-radius: 1px;
+    padding: 30.5px 40px 23px 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.orForgetPass {
+    display: flex;
+    align-items: center;
+    gap: 17.8px;
+    margin-bottom: 70px;
+    color: #737373;
+}
+
+.orForgetPass span {
+    width: 106px;
+    border: 1px solid var(--border-block-color);
+}
+
+.blockLinkToSignUp {
+    display: flex;
+    border: 1px solid var(--border-block-color);
+    padding: 23px 74px;
+    gap: 4px;
+}
+
+.blockLinkToSignUp span {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.blockLinkToSignUp span:nth-of-type(2) a {
+    font-weight: 600;
+    color: #0095F6;
+}
+
+.input {
+    width: 100%;
+    padding: 11px 0 11px 8px;
+    background: #FAFAFA;
+    border: 1px solid var(--border-block-color);
+    border-radius: 3px;
+    color: #737373;
+    margin-top: 8px;
+}
+
+.input::placeholder {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}
+
+.btnLogIn {
+    margin-top: 14px;
+    margin-bottom: 28px;
+    width: 100%;
+    background-color: #0095F6;
+    color: white;
+    padding: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.forgotPassport {
+    font-weight: 400;
+    font-size: 12px;
+    color: #00376B;
+}

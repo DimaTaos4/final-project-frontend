@@ -1,0 +1,60 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 25px 0 25px;
+    border-right: 1px solid var(--border-block-color);
+    height: 100vh;
+}
+
+.ichgramIcon {
+    margin-bottom: 33.44px;
+}
+
+.iconsMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    margin-bottom: 60px;
+}
+
+.iconsMenu button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.iconMenu {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000;
+}
+
+
+
+.iconMenu:global(.active) {
+    font-weight: 700;
+}
+
+.profileClass {
+    font-weight: 400;
+    font-size: 16px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.profileClass:global(.active) {
+    font-weight: 700;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}

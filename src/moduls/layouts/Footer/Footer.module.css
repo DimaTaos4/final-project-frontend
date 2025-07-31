@@ -1,0 +1,32 @@
+.footer {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 0 61px 0;
+}
+
+.footerBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+}
+
+.footerMenu {
+    display: flex;
+    align-items: center;
+    gap: 42px;
+}
+
+.footerItem {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}
+
+.footerInfo {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}

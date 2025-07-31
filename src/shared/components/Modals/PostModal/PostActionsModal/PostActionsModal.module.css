@@ -1,0 +1,52 @@
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    z-index: 1002;
+    padding: 290px 0 0 0;
+}
+
+.postActionModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 240px;
+    z-index: 1000;
+    border-radius: 12px;
+    justify-content: space-between;
+}
+
+.postActionModal button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-block-color);
+    transition: 0.2s;
+
+}
+
+.postActionModal button:hover {
+    background-color: #e1e1e1;
+
+}
+
+.postActionModal :nth-child(1) {
+    color: #ED4956;
+    border-radius: 12px 12px 0 0;
+
+}
+
+.postActionModal :nth-child(5) {
+    border-bottom: none;
+    border-radius: 0 0 12px 12px;
+
+}

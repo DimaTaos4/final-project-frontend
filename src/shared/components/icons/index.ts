@@ -1,0 +1,11 @@
+export { default as HomeIcon } from "./HomeIcon";
+export { default as SearchIcon } from "./SearchIcon";
+export { default as ExploreIcon } from "./ExploreIcon";
+export { default as MessageIcon } from "./MessageIcon";
+export { default as NotificationIcon } from "./NotificationIcon";
+export { default as CreateIcon } from "./CreateIcon";
+export { default as IchgramIcon } from "./IchgramIcon1";
+export { default as AvatarIchgram } from "./AvatarImageIchgram";
+export { default as LikeIcon } from "./LikeIcon";
+export { default as EmojiIcon } from "./EmojiIcon";
+export { default as MultiImageIcon } from "./MultImageIcon";

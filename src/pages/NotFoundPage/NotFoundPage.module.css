@@ -1,0 +1,26 @@
+.notFoundPage {
+    display: flex;
+    gap: 44px;
+    padding: 94px 0 0 119px;
+}
+
+.notFoundMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 47px;
+}
+
+.notFoundMessages h2 {
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 36px;
+}
+
+.notFoundMessages p {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #737373;
+    width: 51%;
+}

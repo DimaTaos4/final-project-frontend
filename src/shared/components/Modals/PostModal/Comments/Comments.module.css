@@ -1,0 +1,76 @@
+.commentsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 25px;
+    padding: 14px;
+}
+
+.commentRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.commentsInfo {
+    display: flex;
+    align-items: center;
+    gap: 15.25px;
+}
+
+.ava {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.commentsTextInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+}
+
+.commentsText {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15.25px;
+    color: #262626;
+    cursor: pointer;
+}
+
+.commentText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15.25px;
+}
+
+.commentData {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.time {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 13.56px;
+    color: #737373;
+}
+
+.likesInfo {
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 13.56px;
+    color: #737373;
+}
+
+.likeIcon {
+    cursor: pointer;
+}

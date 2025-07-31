@@ -1,0 +1,63 @@
+.publications {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(307px, 1fr));
+    gap: 8px;
+    margin-top: 74px;
+}
+
+.postContainer {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.postContainer:hover {
+    transform: scale(1.02);
+    filter: brightness(0.85);
+}
+
+.postImage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}
+
+.multiIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px;
+    border-radius: 4px;
+}
+
+.error {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: red;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.loadingPosts {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    animation: blink 1.2s ease-in-out infinite;
+    color: #3f3f3f;
+}
