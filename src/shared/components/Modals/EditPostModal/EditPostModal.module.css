@@ -1,24 +1,32 @@
+/* Затемнение фона и центрирование */
 .overlay {
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     display: flex;
     justify-content: center;
-    z-index: 1004;
-    padding: 47px 0 0 0;
+    align-items: center;
 }
 
+/* Центр модалки */
 .modalEdit {
-    width: 1500px;
-    height: 800px;
+    width: 90vw;
+    max-width: 1200px;
+    height: 85vh;
+    max-height: 800px;
     background-color: #fff;
-    z-index: 1005;
-    border-radius: 3px;
+    border-radius: 6px;
     display: flex;
-    z-index: 1006;
     flex-direction: column;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
+/* Шапка модалки */
 .headerEdit {
     position: relative;
     border-bottom: 1px solid var(--border-block-color);
@@ -46,4 +54,131 @@
     transform: translate(-50%, -50%);
     font-weight: 600;
     font-size: 16px;
+}
+
+/* Контейнер: картинка + описание */
+.blockEdit {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Важный момент: родитель для стрелок — position: relative */
+.image {
+    position: relative;
+    /* добавлено */
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--border-block-color);
+    overflow: hidden;
+}
+
+/* Стрелки появляются при наведении на .image */
+.image:hover .prevBtn,
+.image:hover .nextBtn {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.imageAddress {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Стрелки навигации */
+.prevBtn,
+.nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 6px 10px;
+    cursor: pointer;
+    z-index: 2;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    opacity: 0;
+    /* изначально скрыты */
+    pointer-events: none;
+    /* и клики запрещены */
+    border-radius: 4px;
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.prevBtn {
+    left: 10px;
+}
+
+.nextBtn {
+    right: 10px;
+}
+
+/* Правая часть */
+.addText {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.textareaCaption {
+    width: 100%;
+    flex: 1;
+    border: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    resize: none;
+    overflow-y: auto;
+}
+
+/* Область загрузки */
+.editImages {
+    height: 100px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border-block-color);
+}
+
+.customFileUpload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-block-color);
+    transition: background-color 0.2s ease;
+    height: 100%;
+}
+
+.customFileUpload:hover {
+    background-color: #f1f1f1;
+}
+
+.customFileUpload input[type="file"] {
+    display: none;
+}
+
+/* Контейнер для стрелок, если нужен */
+.arrowControls {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.arrowControls button {
+    pointer-events: all;
 }

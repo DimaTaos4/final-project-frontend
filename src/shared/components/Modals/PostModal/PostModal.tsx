@@ -212,7 +212,9 @@ const PostModal = ({
         />
       )}
       {isEditModalOpen && (
-        <EditPostModal onClose={() => setIsEditModalOpen(false)} />
+        <EditPostModal
+          onClose={() => setIsEditModalOpen(false)}
+        />
       )}
     </>
   );
