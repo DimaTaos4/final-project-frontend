@@ -11,7 +11,7 @@ import Loader from "../../Loader/Loader";
 import useDataUser from "../../../hooks/useDataUser";
 import { AvatarIchgram } from "../../icons/index";
 import PostActionsModal from "./PostActionsModal/PostActionsModal";
-
+import EditPostModal from "../EditPostModal/EditPostModal";
 interface PostModalProps {
   onClose: () => void;
   post: IPostData;
@@ -30,12 +30,15 @@ const PostModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isActionsModalOpen, setIsActionsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const { dataUser } = useDataUser(post.author);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         !isActionsModalOpen &&
+        !isEditModalOpen &&
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
@@ -47,7 +50,7 @@ const PostModal = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose, isActionsModalOpen]);
+  }, [onClose, isEditModalOpen, isActionsModalOpen]);
 
   if (loading) {
     return (
@@ -202,7 +205,14 @@ const PostModal = ({
           onClose={() => setIsActionsModalOpen(false)}
           post={post}
           onPostDeleted={onPostDeleted}
+          onEditClick={() => {
+            setIsActionsModalOpen(false);
+            setIsEditModalOpen(true);
+          }}
         />
+      )}
+      {isEditModalOpen && (
+        <EditPostModal onClose={() => setIsEditModalOpen(false)} />
       )}
     </>
   );

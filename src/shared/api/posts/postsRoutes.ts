@@ -39,12 +39,8 @@ export const getAllPostsApi = async (token: string) => {
   return data;
 };
 
-export const getPostById = async (token: string, id: string) => {
-  const { data } = await backendInstancePosts.get(`/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getPostByIdApi = async (id: string) => {
+  const { data } = await backendInstancePosts.get(`/${id}`, {});
   return data;
 };
 

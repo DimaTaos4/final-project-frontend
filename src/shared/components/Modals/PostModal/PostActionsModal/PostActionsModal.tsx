@@ -6,12 +6,13 @@ interface PostActionsModalProps {
   onClose: () => void;
   post: IPostData;
   onPostDeleted: (id: string) => void;
+  onEditClick: () => void;
 }
-
 const PostActionsModal = ({
   onClose,
   post,
   onPostDeleted,
+  onEditClick,
 }: PostActionsModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +41,7 @@ const PostActionsModal = ({
     <div className={styles.overlay}>
       <div ref={modalRef} className={styles.postActionModal}>
         <button onClick={handleDeletePost}>Delete</button>
-        <button>Edit</button>
+        <button onClick={onEditClick}>Edit</button>
         <button>Go to post</button>
         <button>Copy link</button>
         <button onClick={onClose}>Cancel</button>

@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { IchgramIcon, AvatarIchgram } from "../../../shared/components/icons";
 import sidebarMenu from "./SidebarMenu/SidebarMenu";
 import useDataUser from "../../../shared/hooks/useDataUser";
+import Loader from "../../../shared/components/Loader/Loader";
 
 type SidebarProps = {
   onOpenModal: () => void;
@@ -59,7 +60,11 @@ const Sidebar = ({ onOpenModal }: SidebarProps) => {
         </p>
       </ul>
 
-      {loadingUser && <p className={styles.loading}>Loading user...</p>}
+      {loadingUser && (
+        <div className={styles.loading}>
+          <Loader loading={loadingUser} />
+        </div>
+      )}
       {errorUser && <p className={styles.error}>Ошибка загрузки профиля</p>}
 
       {!loadingUser && dataUser && (

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getAllPostsApi,
   deletePostApi,
+  getPostByIdApi,
 } from "../../shared/api/posts/postsRoutes";
 import axios from "axios";
 
@@ -15,6 +16,23 @@ export const getAllPosts = createAsyncThunk(
   async (token: string, { rejectWithValue }) => {
     try {
       const data = await getAllPostsApi(token);
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(
+          error.response.data?.message || "Failed to fetch posts"
+        );
+      }
+      return rejectWithValue("Unknown error");
+    }
+  }
+);
+
+export const getPostById = createAsyncThunk(
+  "posts/getPostById",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const data = await getPostByIdApi(id);
       return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

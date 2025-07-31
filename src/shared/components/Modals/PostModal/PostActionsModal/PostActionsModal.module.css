@@ -14,7 +14,7 @@
     flex-direction: column;
     background-color: #fff;
     height: 240px;
-    z-index: 1000;
+    z-index: 1003;
     border-radius: 12px;
     justify-content: space-between;
 }

@@ -1,23 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPosts, deletePost } from "./post.thunk";
+import { getAllPosts, deletePost, getPostById } from "./post.thunk";
 import type { IPostData } from "../../shared/api/posts/postsRoutes";
+
+interface PostByIdProps {
+  _id: string;
+  author: string;
+  imageUrls: string[];
+  caption: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface InitialStatePost {
   loading: boolean;
   error: string | null;
+  postById: PostByIdProps | null;
   posts: IPostData[];
 }
 
 const initialState: InitialStatePost = {
   loading: false,
   error: null,
+  postById: null,
   posts: [],
 };
 
 const postSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    clearPostById: (state) => {
+      state.postById = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllPosts.pending, (state) => {
@@ -46,8 +61,23 @@ const postSlice = createSlice({
       .addCase(deletePost.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
+      })
+      //getPostById
+      .addCase(getPostById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPostById.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.error = null;
+        state.postById = payload;
+      })
+      .addCase(getPostById.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
       });
   },
 });
 
 export default postSlice.reducer;
+export const { clearPostById } = postSlice.actions;

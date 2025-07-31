@@ -3,16 +3,37 @@ import NoPostInProfile from "../../../shared/components/NoPostInProfile/NoPostIn
 import { MultiImageIcon } from "../../../shared/components/icons/index";
 import type { IPostData } from "../../../shared/api/posts/postsRoutes";
 
+import { useAppDispatch } from "../../../shared/hooks/useAppDispatch";
+import { selectPosts } from "../../../redux/posts/post.selector";
+import { useSelector } from "react-redux";
+import Loader from "../../../shared/components/Loader/Loader";
+import { getPostById } from "../../../redux/posts/post.thunk";
+import { useEffect } from "react";
 interface Props {
   postsData: IPostData[];
+  setModal: (state: boolean) => void;
   loading: boolean;
   error: string | null;
-  onOpen: (id: string) => void;
 }
 
-const MyProfilePublications = ({ postsData, loading, error, onOpen }: Props) => {
+const MyProfilePublications = ({
+  postsData,
+  setModal,
+  loading,
+  error,
+}: Props) => {
+  const dispatch = useAppDispatch();
+
+  const { postById } = useSelector(selectPosts);
+  useEffect(() => {
+    console.log(postById);
+  }, [dispatch, postById]);
   if (loading) {
-    return <p className={styles.loadingPosts}>Posts are loading...</p>;
+    return (
+      <div className={styles.loadingPosts}>
+        <Loader loading={loading} />
+      </div>
+    );
   }
 
   if (error) {
@@ -22,6 +43,11 @@ const MyProfilePublications = ({ postsData, loading, error, onOpen }: Props) => 
   if (postsData.length === 0) {
     return <NoPostInProfile />;
   }
+  const onOpenPostModal = (id: string) => {
+    dispatch(getPostById(id)).then(() => {
+      setModal(true);
+    });
+  };
 
   return (
     <article className={styles.publications}>
@@ -33,7 +59,7 @@ const MyProfilePublications = ({ postsData, loading, error, onOpen }: Props) => 
           <div
             key={post._id}
             className={styles.postContainer}
-            onClick={() => onOpen(post._id)}
+            onClick={() => onOpenPostModal(post._id)}
           >
             <img
               src={imageUrl}

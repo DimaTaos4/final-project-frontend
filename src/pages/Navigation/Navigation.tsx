@@ -10,6 +10,10 @@ import MyProfilePage from "../MyProfilePage/MyProfilePage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import EditProfilePage from "../EditProfilePage/EditProfilePage";
 import CreateModal from "../../shared/components/Modals/CreateModal/CreateModal";
+import CookiesPolicyPage from "../CookiesPolicyPage/CookiesPolicyPage";
+import TermsPage from "../TermsPage/TermsPage";
+import PrivacyPage from "../PrivacyPage/PrivacyPage";
+
 type NavigationProps = {
   isModalOpen: boolean;
   toggleModal: () => void;
@@ -30,6 +34,9 @@ const Navigation = ({ isModalOpen, toggleModal }: NavigationProps) => {
           <Route path="/edit" element={<EditProfilePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/legal/cookies" element={<CookiesPolicyPage />} />
+        <Route path="/legal/terms" element={<TermsPage />} />
+        <Route path="/legal/privacy" element={<PrivacyPage />} />
       </Routes>
 
       {isModalOpen && <CreateModal onClose={toggleModal} />}
