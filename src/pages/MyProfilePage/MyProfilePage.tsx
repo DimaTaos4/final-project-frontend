@@ -14,11 +14,10 @@ import { selectPosts } from "../../redux/posts/post.selector";
 import { getAllPosts, deletePost } from "../../redux/posts/post.thunk";
 import { clearPostById } from "../../redux/posts/post.slice";
 
-
-
 const MyProfilePage = () => {
   const { user, token } = useAuth();
   const dispatch = useAppDispatch();
+  const [modal, setModal] = useState(false);
 
   const {
     user: dataUser,
@@ -26,41 +25,41 @@ const MyProfilePage = () => {
     error: errorUser,
   } = useSelector(selectUsers);
 
-  const [modal, setModal] = useState(false);
+  const { posts, loading, error, postById } = useSelector(selectPosts);
 
+  // 🔁 Загрузка информации о пользователе
   useEffect(() => {
     if (user?.id) {
       dispatch(getUserById(user.id));
     }
   }, [dispatch, user?.id]);
 
-  // Handle deleting a post
-  const handlePostDeleted = (deleteId: string) => {
-    setModal(false);
-
-    if (token) {
-      dispatch(deletePost({ id: deleteId, token })).then(() => {
-        dispatch(getAllPosts(token));
-      });
-
-      toast.success("Post successfully deleted");
-    }
-  };
-
-  const { posts, loading, error } = useSelector(selectPosts);
-  // Fetch all posts
+  // 🔁 Загрузка всех постов
   useEffect(() => {
     if (token) {
       dispatch(getAllPosts(token));
     }
   }, [dispatch, token]);
 
-  const { postById } = useSelector(selectPosts);
+  // ❌ Удаление поста с безопасной обработкой и toast
+  const handlePostDeleted = async (deleteId: string) => {
+    setModal(false);
+    if (!token) return;
+
+    try {
+      await dispatch(deletePost({ id: deleteId, token })).unwrap();
+      await dispatch(getAllPosts(token));
+      toast.success("Post successfully deleted");
+    } catch {
+      toast.error("Failed to delete post");
+    }
+  };
 
   return (
     <section className={styles.myProfilePage}>
       {loadingUser && <Loader loading={loadingUser} />}
       {errorUser && <p>{errorUser}</p>}
+
       {dataUser && (
         <>
           <div className={styles.myProfileBlock}>
@@ -126,7 +125,7 @@ const MyProfilePage = () => {
         <PostModal
           onClose={() => {
             setModal(false);
-            dispatch(clearPostById())
+            dispatch(clearPostById());
           }}
           post={postById}
           loading={loading}

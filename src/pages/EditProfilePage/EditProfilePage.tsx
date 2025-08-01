@@ -2,6 +2,8 @@ import styles from "./EditProfilePage.module.css";
 import Button from "../../shared/components/Button/Button";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
+import { logout } from "../../redux/users/users.slice";
 import type { IValues } from "../../shared/api/users/usersRoutes";
 import {
   editUserApi,
@@ -97,6 +99,11 @@ const EditProfilePage = () => {
     setAvatarUser(null);
   };
 
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <section className={styles.editProfile}>
       <h2>Edit profile</h2>
@@ -189,6 +196,14 @@ const EditProfilePage = () => {
           className={styles.saveEditButton}
         >
           {loading ? "Saving..." : "Save"}
+        </Button>
+        <Button
+          onClick={handleLogout}
+          type="button"
+          disabled={loading}
+          className={styles.logoutButton}
+        >
+          Log Out
         </Button>
       </form>
     </section>

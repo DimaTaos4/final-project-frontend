@@ -75,7 +75,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, { payload, error }) => {
         state.error = state.error =
-          (payload as string) || error.message || "Registration error";
+          (payload as string) || error.message || "Error by login";
       })
       // getUserById
       .addCase(getUserById.pending, (state) => {
@@ -93,4 +93,5 @@ const authSlice = createSlice({
       });
   },
 });
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

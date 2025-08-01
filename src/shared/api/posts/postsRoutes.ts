@@ -44,6 +44,19 @@ export const getPostByIdApi = async (id: string) => {
   return data;
 };
 
+export const updatePostByIdApi = async (
+  id: string,
+  token: string,
+  formData: FormData
+) => {
+  const { data } = await backendInstancePosts.patch(`/edit/${id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+};
+
 export const deletePostApi = async (id: string, token: string) => {
   const { data } = await backendInstancePosts.delete(`/delete/${id}`, {
     headers: {

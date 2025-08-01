@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllPosts, deletePost, getPostById } from "./post.thunk";
+import {
+  getAllPosts,
+  deletePost,
+  getPostById,
+  updatePostById,
+} from "./post.thunk";
 import type { IPostData } from "../../shared/api/posts/postsRoutes";
 
 interface PostByIdProps {
@@ -73,6 +78,23 @@ const postSlice = createSlice({
         state.postById = payload;
       })
       .addCase(getPostById.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+      // updatePostById
+      .addCase(updatePostById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePostById.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.error = null;
+        state.postById = payload;
+        state.posts = state.posts.map((post) =>
+          post._id === payload._id ? payload : post
+        );
+      })
+      .addCase(updatePostById.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
       });

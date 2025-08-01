@@ -6,6 +6,9 @@ import ichgramBackground from "../../../../assets/ichgamBackground.png";
 import uploadImage from "../../../../assets/uploadImage.svg";
 import { useSelector } from "react-redux";
 import { selectPosts } from "../../../../redux/posts/post.selector";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { updatePostById } from "../../../../redux/posts/post.thunk";
+import useAuth from "../../../hooks/useAuth";
 
 interface EditModalProps {
   onClose: () => void;
@@ -13,6 +16,10 @@ interface EditModalProps {
 
 const EditPostModal = ({ onClose }: EditModalProps) => {
   const { postById } = useSelector(selectPosts);
+
+  const dispatch = useAppDispatch();
+  const { token } = useAuth();
+
   const modalRef = useRef<HTMLFormElement>(null);
 
   const [files, setFiles] = useState<File[]>([]);
@@ -27,14 +34,12 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
     },
   });
 
-  // Устанавливаем caption из redux
   useEffect(() => {
     if (postById) {
       setValue("caption", postById.caption || "");
     }
   }, [postById, setValue]);
 
-  // Создаём preview для загруженных файлов
   useEffect(() => {
     if (files.length === 0) {
       setFilePreviews([]);
@@ -58,7 +63,6 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
     });
   }, [files]);
 
-  // Закрытие при клике вне модалки
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -91,21 +95,30 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
     setFiles(Array.from(e.target.files));
   };
 
-  const onSubmit = (data: { caption: string }) => {
+  const onSubmit = async (data: { caption: string }) => {
     const formData = new FormData();
     formData.append("caption", data.caption);
     files.forEach((file) => formData.append("images", file));
 
-    console.log("Caption:", data.caption);
-    console.log("Files:", files);
+    if (!token) return;
 
-    // TODO: Call your API here
+    try {
+      const resultAction = await dispatch(
+        updatePostById({ id: postById._id, token, formData })
+      );
 
-    reset();
-    setFiles([]);
-    setFilePreviews([]);
-    setCurrentIndex(0);
-    onClose();
+      if (updatePostById.fulfilled.match(resultAction)) {
+        reset();
+        setFiles([]);
+        setFilePreviews([]);
+        setCurrentIndex(0);
+        onClose();
+      } else {
+        console.error("Ошибка при обновлении поста", resultAction);
+      }
+    } catch (err) {
+      console.error("Ошибка при отправке", err);
+    }
   };
 
   return ReactDOM.createPortal(

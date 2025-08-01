@@ -4,11 +4,8 @@ import { MultiImageIcon } from "../../../shared/components/icons/index";
 import type { IPostData } from "../../../shared/api/posts/postsRoutes";
 
 import { useAppDispatch } from "../../../shared/hooks/useAppDispatch";
-import { selectPosts } from "../../../redux/posts/post.selector";
-import { useSelector } from "react-redux";
 import Loader from "../../../shared/components/Loader/Loader";
 import { getPostById } from "../../../redux/posts/post.thunk";
-import { useEffect } from "react";
 interface Props {
   postsData: IPostData[];
   setModal: (state: boolean) => void;
@@ -24,10 +21,6 @@ const MyProfilePublications = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { postById } = useSelector(selectPosts);
-  useEffect(() => {
-    console.log(postById);
-  }, [dispatch, postById]);
   if (loading) {
     return (
       <div className={styles.loadingPosts}>
