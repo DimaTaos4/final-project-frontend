@@ -9,3 +9,5 @@ export { default as AvatarIchgram } from "./AvatarImageIchgram";
 export { default as LikeIcon } from "./LikeIcon";
 export { default as EmojiIcon } from "./EmojiIcon";
 export { default as MultiImageIcon } from "./MultImageIcon";
+export { default as EmailIcon } from "./EmailIcon";
+

@@ -10,6 +10,8 @@ export interface IUserDoc {
   avatarUrl?: string;
   link?: string;
   message?: string;
+  isVerified?: boolean;
+  verificationToken?: string;
 }
 
 export interface AuthState {
@@ -51,6 +53,8 @@ const authSlice = createSlice({
         state.error = null;
         state.loading = false;
         state.user = payload;
+        state.token = null;
+        state.isAuth = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;

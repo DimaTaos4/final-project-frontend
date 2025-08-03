@@ -89,3 +89,17 @@
     color: #262626;
     padding: 14px 150px;
 }
+
+.successMessage {
+    color: #28a745;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.errorMessage {
+    color: #dc3545;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 14px;
+}

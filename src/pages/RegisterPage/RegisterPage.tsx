@@ -20,7 +20,7 @@ const RegisterPage = () => {
     if (!user) return;
 
     const timeout = setTimeout(() => {
-      navigate("/login");
+      navigate("/verify-email");
     }, 2000);
 
     return () => clearTimeout(timeout);

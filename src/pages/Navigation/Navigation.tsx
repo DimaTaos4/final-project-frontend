@@ -13,6 +13,8 @@ import CreateModal from "../../shared/components/Modals/CreateModal/CreateModal"
 import CookiesPolicyPage from "../CookiesPolicyPage/CookiesPolicyPage";
 import TermsPage from "../TermsPage/TermsPage";
 import PrivacyPage from "../PrivacyPage/PrivacyPage";
+import VerifyEmailPage from "../VerifyEmailPage/VerifyEmailPage";
+import ResetPasswordPage from "../ResetPasswordPage/ResetPasswordPage";
 
 type NavigationProps = {
   isModalOpen: boolean;
@@ -27,6 +29,8 @@ const Navigation = ({ isModalOpen, toggleModal }: NavigationProps) => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/reset" element={<ResetPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<HomePage />} />

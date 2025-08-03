@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { selectUsers } from "../../redux/users/users.selector";
 import type { AuthState } from "../../redux/users/users.slice";
 
-// Вспомогательная функция для декодирования токена
 function parseJwt(token: string): { userId: string } | null {
   try {
     const base64Url = token.split(".")[1];

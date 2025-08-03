@@ -1,0 +1,93 @@
+.verifyPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    background-color: #fafafa;
+    min-height: 100vh;
+}
+
+.card {
+    max-width: 400px;
+    width: 100%;
+    background-color: white;
+    padding: 40px 32px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+}
+
+.icon {
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.secondaryText {
+    font-size: 13px;
+    color: #555;
+}
+
+.secondaryText a {
+    color: #0095f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.secondaryText a:hover {
+    text-decoration: underline;
+}
+
+.backToLogin {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #0095f6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.backToLogin:hover {
+    text-decoration: underline;
+}
+
+.successMessage {
+    background-color: #e5fbe5;
+    color: #2e7d32;
+    font-size: 14px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.resendButton {
+    background: none;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    border: none;
+    font: inherit;
+    padding: 0;
+}
+
+.successMessage {
+    color: green;
+    margin-top: 8px;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 8px;
+}
