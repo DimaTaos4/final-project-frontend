@@ -1,13 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { registerUser, loginUser, getUserById } from "./users.thunk";
+import {
+  registerUser,
+  loginUser,
+  getUserById,
+  getAllUsers,
+} from "./users.thunk";
+
 export interface IUserDoc {
-  id: string;
+  _id: string;
   email: string;
   fullName: string;
   userName: string;
   bio?: string;
   avatarUrl?: string;
+  followers: string[];
+  following: string[];
   link?: string;
   message?: string;
   isVerified?: boolean;
@@ -16,6 +24,7 @@ export interface IUserDoc {
 
 export interface AuthState {
   user: null | IUserDoc | string;
+  allUsers: null | IUserDoc;
   token: string | null;
   isAuth: boolean;
   loading: boolean;
@@ -24,6 +33,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  allUsers: null,
   token: localStorage.getItem("token"),
   isAuth: false,
   loading: false,
@@ -92,6 +102,20 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getUserById.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+      // getAllUsers
+      .addCase(getAllUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllUsers.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.allUsers = payload;
+        state.error = null;
+      })
+      .addCase(getAllUsers.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
       });

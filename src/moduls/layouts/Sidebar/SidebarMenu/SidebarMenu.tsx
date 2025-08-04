@@ -19,7 +19,7 @@ const sidebarMenu = [
   {
     id: nanoid(),
     icon: <SearchIcon size={24} />,
-    toPage: "/search",
+    isModal: true,
     text: "Search",
   },
   {

@@ -58,3 +58,7 @@
     height: 24px;
     border-radius: 50%;
 }
+
+.navAndModal {
+    display: flex;
+}

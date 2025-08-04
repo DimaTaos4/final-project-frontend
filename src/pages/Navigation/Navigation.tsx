@@ -15,13 +15,21 @@ import TermsPage from "../TermsPage/TermsPage";
 import PrivacyPage from "../PrivacyPage/PrivacyPage";
 import VerifyEmailPage from "../VerifyEmailPage/VerifyEmailPage";
 import ResetPasswordPage from "../ResetPasswordPage/ResetPasswordPage";
-
+import SearchModal from "../../moduls/layouts/Sidebar/SearchModal/SearchModal";
+import UserPage from "../UserPage/UserPage";
 type NavigationProps = {
   isModalOpen: boolean;
   toggleModal: () => void;
+  isSearchOpen: boolean;
+  toggleSearch: () => void;
 };
 
-const Navigation = ({ isModalOpen, toggleModal }: NavigationProps) => {
+const Navigation = ({
+  isModalOpen,
+  toggleModal,
+  isSearchOpen,
+  toggleSearch,
+}: NavigationProps) => {
   return (
     <div className={styles.navigation}>
       <Routes>
@@ -36,6 +44,7 @@ const Navigation = ({ isModalOpen, toggleModal }: NavigationProps) => {
           <Route path="/" element={<HomePage />} />
           <Route path="/myprofile" element={<MyProfilePage />} />
           <Route path="/edit" element={<EditProfilePage />} />
+          <Route path="/user/:id" element={<UserPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/legal/cookies" element={<CookiesPolicyPage />} />
@@ -44,6 +53,7 @@ const Navigation = ({ isModalOpen, toggleModal }: NavigationProps) => {
       </Routes>
 
       {isModalOpen && <CreateModal onClose={toggleModal} />}
+      {isSearchOpen && <SearchModal onClose={toggleSearch} />}
     </div>
   );
 };

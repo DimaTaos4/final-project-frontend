@@ -4,6 +4,7 @@ import {
   registerUserApi,
   loginUserApi,
   getUserApiById,
+  getAllUsersApi,
 } from "../../shared/api/users/usersRoutes";
 
 import type {
@@ -43,6 +44,22 @@ export const loginUser = createAsyncThunk(
       }
 
       return rejectWithValue("Unknown error occurred during logining");
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "auth/getAllUsers",
+  async (__, { rejectWithValue }) => {
+    try {
+      const result = await getAllUsersApi();
+      return result;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(
+          error?.response?.data?.message || "Login failed"
+        );
+      }
     }
   }
 );

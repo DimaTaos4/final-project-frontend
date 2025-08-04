@@ -27,21 +27,18 @@ const MyProfilePage = () => {
 
   const { posts, loading, error, postById } = useSelector(selectPosts);
 
-  // 🔁 Загрузка информации о пользователе
   useEffect(() => {
     if (user?.id) {
       dispatch(getUserById(user.id));
     }
   }, [dispatch, user?.id]);
 
-  // 🔁 Загрузка всех постов
   useEffect(() => {
     if (token) {
       dispatch(getAllPosts(token));
     }
   }, [dispatch, token]);
 
-  // ❌ Удаление поста с безопасной обработкой и toast
   const handlePostDeleted = async (deleteId: string) => {
     setModal(false);
     if (!token) return;
@@ -85,13 +82,13 @@ const MyProfilePage = () => {
 
               <div className={styles.audience}>
                 <p>
-                  <span>{posts.length}</span> posts
+                  <span>{posts?.length ?? 0}</span> posts
                 </p>
                 <p>
-                  <span>9993</span> followers
+                  <span>{dataUser?.followers?.length ?? 0}</span> followers
                 </p>
                 <p>
-                  <span>59</span> following
+                  <span>{dataUser?.following?.length ?? 0}</span> following
                 </p>
               </div>
 

@@ -9,6 +9,7 @@ export interface IValues {
 }
 
 export interface IRegisterData {
+  _id: string;
   email: string;
   fullName: string;
   userName: string;
@@ -44,6 +45,12 @@ export const loginUserApi = async (payload: ILoginData) => {
   return data;
 };
 
+export const getAllUsersApi = async () => {
+  const { data } = await backendInstance.get("/");
+  console.log("All users response:", data);
+  return data;
+};
+
 export const getUserApiById = async (id: string) => {
   const { data } = await backendInstance.get(`/${id}`);
   return data;
@@ -66,5 +73,12 @@ export const resetPasswordApi = async (payload: ResetPasswordPayload) => {
 
 export const requestResetPassApi = async (email: string) => {
   const { data } = await backendInstance.post("/reset-request", { email });
+  return data;
+};
+
+export const searchUsersApi = async (query: string) => {
+  const { data } = await backendInstance.get(`/search/users`, {
+    params: { q: query },
+  });
   return data;
 };

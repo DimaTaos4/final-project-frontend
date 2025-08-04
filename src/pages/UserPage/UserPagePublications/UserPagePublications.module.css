@@ -1,0 +1,28 @@
+.userPublications {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(307px, 1fr));
+    gap: 8px;
+    margin-top: 74px;
+}
+
+.imageContainer {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.imageContainer:hover {
+    transform: scale(1.02);
+    filter: brightness(0.85);
+}
+
+.imageContainer img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+}

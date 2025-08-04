@@ -1,0 +1,109 @@
+.userPage {
+    display: flex;
+    flex-direction: column;
+    padding: 38px 110px 0 110px;
+}
+
+.descriptionBlock {
+    display: flex;
+    align-items: center;
+    gap: 95px;
+}
+
+
+
+.imageAva {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.infoActionBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.actionPart {
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.username {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    margin-right: 20px;
+}
+
+.followBtn {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    background-color: #0095F6;
+    color: #fff;
+    padding: 8px 48px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.messageBtn {
+    background-color: #EFEFEF;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 48px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.infoAboutUser {
+    display: flex;
+    align-items: center;
+    gap: 85px;
+    margin-bottom: 20px;
+}
+
+.infoAboutUser p {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.count {
+    font-weight: 600;
+}
+
+.textAboutUser {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+}
+
+.link {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #00376B;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.error {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: red;
+}
+
+
+.loadingPosts {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    animation: blink 1.2s ease-in-out infinite;
+    color: #3f3f3f;
+}

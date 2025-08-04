@@ -12,14 +12,20 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
   const toggleModal = () => setIsModalOpen((prev) => !prev);
-
+  const toggleSearch = () => setSearchOpen(!isSearchOpen);
   if (isAuthenticated) {
     return (
       <>
         <PageLayout>
-          <Sidebar onOpenModal={toggleModal} />
-          <Navigation isModalOpen={isModalOpen} toggleModal={toggleModal} />
+          <Sidebar onOpenModal={toggleModal} onOpenSearch={toggleSearch} />
+          <Navigation
+            isModalOpen={isModalOpen}
+            toggleModal={toggleModal}
+            isSearchOpen={isSearchOpen}
+            toggleSearch={toggleSearch}
+          />
           <Footer />
         </PageLayout>
         <ToastContainer
@@ -31,7 +37,14 @@ function App() {
     );
   }
 
-  return <Navigation isModalOpen={false} toggleModal={() => {}} />;
+  return (
+    <Navigation
+      isModalOpen={false}
+      toggleModal={() => {}}
+      isSearchOpen={false}
+      toggleSearch={() => {}}
+    />
+  );
 }
 
 export default App;

@@ -4,12 +4,12 @@ import { IchgramIcon, AvatarIchgram } from "../../../shared/components/icons";
 import sidebarMenu from "./SidebarMenu/SidebarMenu";
 import useDataUser from "../../../shared/hooks/useDataUser";
 import Loader from "../../../shared/components/Loader/Loader";
-
 type SidebarProps = {
   onOpenModal: () => void;
+  onOpenSearch: () => void;
 };
 
-const Sidebar = ({ onOpenModal }: SidebarProps) => {
+const Sidebar = ({ onOpenModal, onOpenSearch }: SidebarProps) => {
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
@@ -38,7 +38,19 @@ const Sidebar = ({ onOpenModal }: SidebarProps) => {
         </button>
       );
     }
-
+    if (menu.isModal && menu.text === "Search") {
+      return (
+        <button
+          key={menu.id}
+          className={styles.iconMenu}
+          onClick={onOpenSearch}
+          type="button"
+        >
+          {menu.icon}
+          <span>{menu.text}</span>
+        </button>
+      );
+    }
     return (
       <button key={menu.id} className={styles.iconMenu}>
         {menu.icon}
