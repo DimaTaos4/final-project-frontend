@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { getAllPosts } from "../../../../redux/posts/post.thunk";
 import useAuth from "../../../hooks/useAuth";
+import EmojiPicker from "emoji-picker-react";
+import type { EmojiClickData } from "emoji-picker-react";
 
 const CreateModal = ({ onClose }: { onClose: () => void }) => {
   const { token } = useAuth();
@@ -18,14 +20,22 @@ const CreateModal = ({ onClose }: { onClose: () => void }) => {
   const userId = userFromStorage ? JSON.parse(userFromStorage).id : null;
   const { dataUser } = useDataUser(userId);
 
-  const { register, handleSubmit, watch, reset } = useForm();
+  const { register, handleSubmit, watch, reset, setValue } = useForm();
   const caption = watch("caption") || "";
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const emojiPickerRef = useRef<HTMLDivElement | null>(null);
+
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const emoji = emojiData.emoji;
+    setValue("caption", caption + emoji);
+  };
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -84,6 +94,25 @@ const CreateModal = ({ onClose }: { onClose: () => void }) => {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [onClose]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(e.target as Node)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    if (showEmojiPicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showEmojiPicker]);
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -177,8 +206,33 @@ const CreateModal = ({ onClose }: { onClose: () => void }) => {
                 </div>
               )}
 
-              <div className={styles.emoji}>
-                <EmojiIcon size={20} />
+              <div className={styles.emoji} style={{ position: "relative" }}>
+                <button
+                  type="button"
+                  onClick={() => setShowEmojiPicker((prev) => !prev)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <EmojiIcon size={20} />
+                </button>
+
+                {showEmojiPicker && (
+                  <div
+                    ref={emojiPickerRef}
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      marginTop: 8,
+                      zIndex: 10,
+                    }}
+                  >
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  </div>
+                )}
               </div>
             </div>
 

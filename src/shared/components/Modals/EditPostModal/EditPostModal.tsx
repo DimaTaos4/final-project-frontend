@@ -9,6 +9,9 @@ import { selectPosts } from "../../../../redux/posts/post.selector";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { updatePostById } from "../../../../redux/posts/post.thunk";
 import useAuth from "../../../hooks/useAuth";
+import { EmojiIcon } from "../../icons/index";
+import EmojiPicker from "emoji-picker-react";
+import type { EmojiClickData } from "emoji-picker-react";
 
 interface EditModalProps {
   onClose: () => void;
@@ -16,23 +19,26 @@ interface EditModalProps {
 
 const EditPostModal = ({ onClose }: EditModalProps) => {
   const { postById } = useSelector(selectPosts);
-
   const dispatch = useAppDispatch();
   const { token } = useAuth();
 
   const modalRef = useRef<HTMLFormElement>(null);
+  const emojiPickerRef = useRef<HTMLDivElement | null>(null);
 
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm<{
+  const { register, handleSubmit, reset, setValue, watch } = useForm<{
     caption: string;
   }>({
     defaultValues: {
       caption: "",
     },
   });
+
+  const caption = watch("caption") || "";
 
   useEffect(() => {
     if (postById) {
@@ -65,12 +71,31 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(e.target as Node)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    if (showEmojiPicker) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showEmojiPicker]);
+
+  useEffect(() => {
+    const handleClickOutsideModal = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutsideModal);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutsideModal);
   }, [onClose]);
 
   if (!postById) return null;
@@ -121,6 +146,11 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
     }
   };
 
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const emoji = emojiData.emoji;
+    setValue("caption", caption + emoji);
+  };
+
   return ReactDOM.createPortal(
     <div className={styles.overlay}>
       <form
@@ -168,12 +198,30 @@ const EditPostModal = ({ onClose }: EditModalProps) => {
               className={styles.textareaCaption}
               placeholder="Edit a caption..."
               {...register("caption")}
+              rows={6}
+              style={{ resize: "none" }}
             />
-            <div className={styles.editImages}>
+
+            <div className={styles.editImages} style={{ position: "relative" }}>
               <label className={styles.customFileUpload}>
                 <input type="file" multiple onChange={onFileChange} />
                 <img src={uploadImage} alt="upload" />
               </label>
+
+              <button
+                type="button"
+                onClick={() => setShowEmojiPicker((prev) => !prev)}
+                className={styles.btnEmoji}
+                aria-label="Toggle emoji picker"
+              >
+                <EmojiIcon size={20} />
+              </button>
+
+              {showEmojiPicker && (
+                <div ref={emojiPickerRef} className={styles.emojiBlock}>
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
             </div>
           </div>
         </div>
