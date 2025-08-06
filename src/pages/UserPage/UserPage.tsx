@@ -12,7 +12,7 @@ import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import Loader from "../../shared/components/Loader/Loader";
 import { AvatarIchgram } from "../../shared/components/icons/index";
 import UserPostModal from "./UserPostModal/UserPostModal";
-import { followUser } from "../../redux/users/users.thunk";
+import { followUser, unfollowUser } from "../../redux/users/users.thunk";
 
 const UserPage = () => {
   const [isUserModalOpened, setIsUserModalOpened] = useState(false);
@@ -69,6 +69,11 @@ const UserPage = () => {
     await dispatch(getUserById(id));
   };
 
+  const handleUnfollow = async (id: string, token: string) => {
+    if (!token) return <p>A User is unauthorized</p>;
+    await dispatch(unfollowUser({ userId: id, token: token }));
+    await dispatch(getUserById(id));
+  };
   if (loading) {
     return (
       <div className={styles.loadingPosts}>
@@ -103,7 +108,12 @@ const UserPage = () => {
           <div className={styles.actionPart}>
             <span className={styles.username}>{dataUser?.userName}</span>
             {isFollowing ? (
-              <button className={styles.unfollowBtn}>Unfollow</button>
+              <button
+                className={styles.unfollowBtn}
+                onClick={() => handleUnfollow(id, token as string)}
+              >
+                Unfollow
+              </button>
             ) : (
               <button
                 className={styles.followBtn}

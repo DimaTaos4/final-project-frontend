@@ -6,6 +6,7 @@ import {
   getUserApiById,
   getAllUsersApi,
   followUserApi,
+  unfollowUserApi,
 } from "../../shared/api/users/usersRoutes";
 import type {
   ILoginData,
@@ -95,6 +96,22 @@ export const followUser = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(
           error?.response?.data?.message || "Following failed"
+        );
+      }
+    }
+  }
+);
+
+export const unfollowUser = createAsyncThunk(
+  "auth/unfollowUser",
+  async ({ userId, token }: IFollowProps, { rejectWithValue }) => {
+    try {
+      const result = await unfollowUserApi(userId, token);
+      return result;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(
+          error?.response?.data?.message || "Unfollowing failed"
         );
       }
     }

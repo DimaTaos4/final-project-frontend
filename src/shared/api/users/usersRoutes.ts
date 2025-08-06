@@ -96,3 +96,16 @@ export const followUserApi = async (followedId: string, token: string) => {
   );
   return data;
 };
+
+export const unfollowUserApi = async (followedId: string, token: string) => {
+  const { data } = await backendInstance.post(
+    `/${followedId}/unfollow`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return data;
+};
