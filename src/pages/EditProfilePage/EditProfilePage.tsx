@@ -46,9 +46,9 @@ const EditProfilePage = () => {
 
   useEffect(() => {
     const fetchUserAvatar = async () => {
-      if (!user?.id) return;
+      if (!user?._id) return;
       try {
-        const data = await getUserApiById(user.id);
+        const data = await getUserApiById(user._id);
         setAvatarUser(data);
         setUserData(data);
       } catch (err) {
@@ -57,7 +57,7 @@ const EditProfilePage = () => {
     };
 
     fetchUserAvatar();
-  }, [user?.id]);
+  }, [user?._id]);
 
   const onSubmit = async (values: IValues): Promise<void> => {
     try {

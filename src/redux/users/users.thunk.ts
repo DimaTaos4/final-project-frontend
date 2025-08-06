@@ -62,7 +62,7 @@ export const getAllUsers = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(
-          error?.response?.data?.message || "Login failed"
+          error?.response?.data?.message || "Something went wrong"
         );
       }
     }
@@ -70,7 +70,7 @@ export const getAllUsers = createAsyncThunk(
 );
 
 export const getUserById = createAsyncThunk(
-  "auth/getUser",
+  "auth/getUserById",
   async (userId: string, { rejectWithValue }) => {
     try {
       const result = await getUserApiById(userId);
@@ -78,7 +78,7 @@ export const getUserById = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(
-          error?.response?.data?.message || "Login failed"
+          error?.response?.data?.message || "Something went wrong"
         );
       }
     }
@@ -94,7 +94,7 @@ export const followUser = createAsyncThunk(
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         return rejectWithValue(
-          error?.response?.data?.message || "Login failed"
+          error?.response?.data?.message || "Following failed"
         );
       }
     }

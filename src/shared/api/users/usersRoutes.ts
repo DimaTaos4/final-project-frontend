@@ -42,6 +42,8 @@ export const resendVerificationApi = async (email: string) => {
 
 export const loginUserApi = async (payload: ILoginData) => {
   const { data } = await backendInstance.post("/login", payload);
+  console.log(data);
+
   return data;
 };
 

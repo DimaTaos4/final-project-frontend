@@ -4,9 +4,10 @@ import UserPagePublications from "./UserPagePublications/UserPagePublications";
 import { getPostsByIdUser } from "../../shared/api/posts/postsRoutes";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserById } from "../../redux/users/users.thunk";
+import { getUserById } from "../../redux/profile/profile.thunk";
 import { useSelector } from "react-redux";
 import { selectUsers } from "../../redux/users/users.selector";
+import { selectProfile } from "../../redux/profile/profile.selector";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import Loader from "../../shared/components/Loader/Loader";
 import { AvatarIchgram } from "../../shared/components/icons/index";
@@ -23,12 +24,29 @@ const UserPage = () => {
   const { id } = useParams();
 
   const dispatch = useAppDispatch();
-  const { user: dataUser, loading, error } = useSelector(selectUsers);
+  const { user } = useSelector(selectUsers);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  const { user: dataUser, loading, error } = useSelector(selectProfile);
   useEffect(() => {
     if (id) {
       dispatch(getUserById(id));
     }
   }, [dispatch, id]);
+
+  useEffect(() => {
+    async function fetchDataUser() {
+      try {
+        if (id) getUserById(id);
+        console.log(dataUser);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchDataUser();
+  }, [dataUser, id]);
+
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   useEffect(() => {
     const fetchUserPosts = async () => {
@@ -47,7 +65,8 @@ const UserPage = () => {
 
   const handleFollow = async (id: string, token: string) => {
     if (!token) return <p>A User is unauthorized</p>;
-    dispatch(followUser({ userId: id, token: token }));
+    await dispatch(followUser({ userId: id, token: token }));
+    await dispatch(getUserById(id));
   };
 
   if (loading) {
@@ -64,8 +83,7 @@ const UserPage = () => {
   if (!id) return <p className={styles.error}>User ID not found</p>;
   if (!dataUser) return null;
   const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
-
-  const isFollowing = dataUser?.followers?.includes(currentUser?._id);
+  const isFollowing = dataUser?.followers?.includes(currentUser._id);
 
   return (
     <section className={styles.userPage}>

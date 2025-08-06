@@ -13,7 +13,7 @@ const Sidebar = ({ onOpenModal, onOpenSearch }: SidebarProps) => {
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
-  const { dataUser, loadingUser, errorUser } = useDataUser(user?.id);
+  const { dataUser, loadingUser, errorUser } = useDataUser(user?._id);
 
   const element = sidebarMenu.map((menu) => {
     if (menu.toPage) {
