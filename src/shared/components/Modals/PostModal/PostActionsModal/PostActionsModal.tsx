@@ -42,7 +42,6 @@ const PostActionsModal = ({
       await navigator.clipboard.writeText(currentUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      console.log(copied);
     } catch (error) {
       console.error(error);
     }

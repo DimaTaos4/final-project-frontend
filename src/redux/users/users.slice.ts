@@ -5,6 +5,7 @@ import {
   loginUser,
   getUserById,
   getAllUsers,
+  followUser,
 } from "./users.thunk";
 
 export interface IUserDoc {
@@ -116,6 +117,20 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllUsers.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+      // followUser
+      .addCase(followUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(followUser.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = payload;
+        state.error = null;
+      })
+      .addCase(followUser.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
       });

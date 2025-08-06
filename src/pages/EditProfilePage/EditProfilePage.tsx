@@ -12,6 +12,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AvatarIchgram } from "../../shared/components/icons";
 
+import type { IRegisterData } from "../../shared/api/users/usersRoutes";
+
 const MAX_BIO_LENGTH = 150;
 
 const EditProfilePage = () => {
@@ -32,6 +34,8 @@ const EditProfilePage = () => {
   const [avatarUser, setAvatarUser] = useState<{ avatarUrl: string } | null>(
     null
   );
+  const [userData, setUserData] = useState<IRegisterData | null>(null);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const userString = localStorage.getItem("user");
@@ -46,6 +50,7 @@ const EditProfilePage = () => {
       try {
         const data = await getUserApiById(user.id);
         setAvatarUser(data);
+        setUserData(data);
       } catch (err) {
         console.error("Ошибка загрузки аватара:", err);
       }
@@ -103,7 +108,7 @@ const EditProfilePage = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
-
+  if (!userData) return null;
   return (
     <section className={styles.editProfile}>
       <h2>Edit profile</h2>
@@ -126,8 +131,8 @@ const EditProfilePage = () => {
         )}
 
         <div className={styles.infoText}>
-          <h3>ichschool</h3>
-          <p>• Гарантия помощи с трудоустройством в ведущие IT-компании</p>
+          <h3>{userData.userName}</h3>
+          <p>{userData.bio}</p>
         </div>
 
         <div className={styles.avatarButtons}>

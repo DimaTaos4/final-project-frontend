@@ -22,8 +22,8 @@ const VerifyEmailPage = () => {
   const emailVerifiedSuccessfully = query.get("success") === "true";
 
   useEffect(() => {
-    if (user && typeof user !== "string" && user.id) {
-      dispatch(getUserById(user.id));
+    if (user && typeof user !== "string" && user._id) {
+      dispatch(getUserById(user._id));
     }
   }, [dispatch, user]);
 

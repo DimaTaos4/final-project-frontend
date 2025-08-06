@@ -1,25 +1,54 @@
 import styles from "./UserPage.module.css";
-
+import type { Post } from "./UserPagePublications/UserPagePublications";
 import UserPagePublications from "./UserPagePublications/UserPagePublications";
-
+import { getPostsByIdUser } from "../../shared/api/posts/postsRoutes";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/users/users.thunk";
 import { useSelector } from "react-redux";
 import { selectUsers } from "../../redux/users/users.selector";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import Loader from "../../shared/components/Loader/Loader";
 import { AvatarIchgram } from "../../shared/components/icons/index";
+import UserPostModal from "./UserPostModal/UserPostModal";
+import { followUser } from "../../redux/users/users.thunk";
+
 const UserPage = () => {
+  const [isUserModalOpened, setIsUserModalOpened] = useState(false);
+  const [postId, setPostId] = useState("");
+  const onOpenUserModal = (postId: string) => {
+    setIsUserModalOpened(true);
+    setPostId(postId);
+  };
   const { id } = useParams();
+
   const dispatch = useAppDispatch();
   const { user: dataUser, loading, error } = useSelector(selectUsers);
-
   useEffect(() => {
     if (id) {
       dispatch(getUserById(id));
     }
   }, [dispatch, id]);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      if (!id) return;
+      try {
+        const posts = await getPostsByIdUser(id);
+        setUserPosts(posts);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
+      }
+    };
+
+    fetchUserPosts();
+  }, [id]);
+  const token = localStorage.getItem("token");
+
+  const handleFollow = async (id: string, token: string) => {
+    if (!token) return <p>A User is unauthorized</p>;
+    dispatch(followUser({ userId: id, token: token }));
+  };
 
   if (loading) {
     return (
@@ -32,6 +61,11 @@ const UserPage = () => {
   if (error) {
     return <p className={styles.error}>{error}</p>;
   }
+  if (!id) return <p className={styles.error}>User ID not found</p>;
+  if (!dataUser) return null;
+  const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const isFollowing = dataUser?.followers?.includes(currentUser?._id);
 
   return (
     <section className={styles.userPage}>
@@ -50,12 +84,21 @@ const UserPage = () => {
         <div className={styles.infoActionBlock}>
           <div className={styles.actionPart}>
             <span className={styles.username}>{dataUser?.userName}</span>
-            <button className={styles.followBtn}>Follow</button>
+            {isFollowing ? (
+              <button className={styles.unfollowBtn}>Unfollow</button>
+            ) : (
+              <button
+                className={styles.followBtn}
+                onClick={() => handleFollow(id, token as string)}
+              >
+                Follow
+              </button>
+            )}
             <button className={styles.messageBtn}>Message</button>
           </div>
           <div className={styles.infoAboutUser}>
             <p>
-              <span className={styles.count}>0</span> posts
+              <span className={styles.count}>{userPosts.length}</span> posts
             </p>
             <p>
               <span className={styles.count}>{dataUser?.followers.length}</span>{" "}
@@ -72,7 +115,14 @@ const UserPage = () => {
           </a>
         </div>
       </div>
-      <UserPagePublications />
+      <UserPagePublications userId={id} onOpenUserModal={onOpenUserModal} />
+      {isUserModalOpened && (
+        <UserPostModal
+          onClose={() => setIsUserModalOpened(false)}
+          postId={postId}
+          dataUser={dataUser}
+        />
+      )}
     </section>
   );
 };

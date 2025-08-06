@@ -65,3 +65,8 @@ export const deletePostApi = async (id: string, token: string) => {
   });
   return data;
 };
+
+export const getPostsByIdUser = async (userId: string) => {
+  const { data } = await backendInstancePosts.get(`/byuser/${userId}`);
+  return data;
+};

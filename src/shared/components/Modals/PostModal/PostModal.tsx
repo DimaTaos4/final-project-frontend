@@ -12,6 +12,8 @@ import useDataUser from "../../../hooks/useDataUser";
 import { AvatarIchgram } from "../../icons/index";
 import PostActionsModal from "./PostActionsModal/PostActionsModal";
 import EditPostModal from "../EditPostModal/EditPostModal";
+import { getRelativeTime } from "../../../utils/dateUtils";
+
 interface PostModalProps {
   onClose: () => void;
   post: IPostData;
@@ -87,18 +89,6 @@ const PostModal = ({
     setCurrentIndex((prevIndex) =>
       prevIndex === post.imageUrls.length - 1 ? 0 : prevIndex + 1
     );
-  };
-
-  const getRelativeTime = (dateString: string) => {
-    const now = new Date();
-    const date = new Date(dateString);
-    const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
-    const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-
-    if (diff < 60) return rtf.format(-diff, "second");
-    if (diff < 3600) return rtf.format(-Math.floor(diff / 60), "minute");
-    if (diff < 86400) return rtf.format(-Math.floor(diff / 3600), "hour");
-    return rtf.format(-Math.floor(diff / 86400), "day");
   };
 
   return (
@@ -192,7 +182,15 @@ const PostModal = ({
                 </div>
                 <div className={styles.imageInfo}>
                   <p className={styles.likes}>25 likes</p>
-                  <p className={styles.timeInLikeComment}>1 day</p>
+                  <p className={styles.timeInLikeComment}>
+                    {post.updatedAt && post.createdAt
+                      ? getRelativeTime(
+                          post.updatedAt !== post.createdAt
+                            ? post.updatedAt
+                            : post.createdAt
+                        )
+                      : "unknown"}
+                  </p>
                 </div>
               </div>
               <AddCommentForm />
@@ -212,9 +210,7 @@ const PostModal = ({
         />
       )}
       {isEditModalOpen && (
-        <EditPostModal
-          onClose={() => setIsEditModalOpen(false)}
-        />
+        <EditPostModal onClose={() => setIsEditModalOpen(false)} />
       )}
     </>
   );

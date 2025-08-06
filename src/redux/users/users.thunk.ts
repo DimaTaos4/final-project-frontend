@@ -5,12 +5,17 @@ import {
   loginUserApi,
   getUserApiById,
   getAllUsersApi,
+  followUserApi,
+} from "../../shared/api/users/usersRoutes";
+import type {
+  ILoginData,
+  IRegisterData,
 } from "../../shared/api/users/usersRoutes";
 
-import type {
-  IRegisterData,
-  ILoginData,
-} from "../../shared/api/users/usersRoutes";
+export interface IFollowProps {
+  userId: string;
+  token: string;
+}
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -69,6 +74,22 @@ export const getUserById = createAsyncThunk(
   async (userId: string, { rejectWithValue }) => {
     try {
       const result = await getUserApiById(userId);
+      return result;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(
+          error?.response?.data?.message || "Login failed"
+        );
+      }
+    }
+  }
+);
+
+export const followUser = createAsyncThunk(
+  "auth/followUser",
+  async ({ userId, token }: IFollowProps, { rejectWithValue }) => {
+    try {
+      const result = await followUserApi(userId, token);
       return result;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

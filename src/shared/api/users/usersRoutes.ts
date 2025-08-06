@@ -47,7 +47,6 @@ export const loginUserApi = async (payload: ILoginData) => {
 
 export const getAllUsersApi = async () => {
   const { data } = await backendInstance.get("/");
-  console.log("All users response:", data);
   return data;
 };
 
@@ -80,5 +79,18 @@ export const searchUsersApi = async (query: string) => {
   const { data } = await backendInstance.get(`/search/users`, {
     params: { q: query },
   });
+  return data;
+};
+
+export const followUserApi = async (followedId: string, token: string) => {
+  const { data } = await backendInstance.post(
+    `/${followedId}/follow`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return data;
 };

@@ -48,6 +48,18 @@
     cursor: pointer;
 }
 
+.unfollowBtn {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    background-color: #EFEFEF;
+    color: #000000;
+    padding: 8px 48px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
 .messageBtn {
     background-color: #EFEFEF;
     border: none;
