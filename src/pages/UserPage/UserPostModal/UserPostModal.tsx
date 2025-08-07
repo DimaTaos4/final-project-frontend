@@ -1,5 +1,5 @@
 import styles from "./UserPostModal.module.css";
-import buttonEdit from "../../../assets/buttonEdit.png";
+
 import { LikeIcon } from "../../../shared/components/icons";
 import CommentIcon from "../../../shared/components/icons/CommentIcon";
 import { AvatarIchgram } from "../../../shared/components/icons";
@@ -79,9 +79,6 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
 
               <span className={styles.username}>{dataUser.userName}</span>
             </div>
-            <button className={styles.btnEdit}>
-              <img src={buttonEdit} alt="edit button" />
-            </button>
           </div>
 
           <div className={styles.scrollContent}>
