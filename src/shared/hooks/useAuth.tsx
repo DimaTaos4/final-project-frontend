@@ -23,7 +23,13 @@ function parseJwt(token: string): { userId: string } | null {
 }
 
 const useAuth = () => {
-  const { token, loading, error, isAuth }: AuthState = useSelector(selectUsers);
+  const {
+    token,
+    user: currentUser,
+    loading,
+    error,
+    isAuth,
+  }: AuthState = useSelector(selectUsers);
 
   const decoded = token ? parseJwt(token) : null;
   const user = decoded ? { id: decoded.userId } : null;
@@ -34,6 +40,7 @@ const useAuth = () => {
     isAuthenticated,
     token,
     user,
+    currentUser,
     loading,
     error,
     isAuth,

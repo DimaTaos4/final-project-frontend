@@ -49,7 +49,6 @@ const SearchModal = ({ onClose }: Props) => {
     return () => clearTimeout(delay);
   }, [userValue]);
 
-  // Загружаем recent для конкретного пользователя
   useEffect(() => {
     if (!recentKey) return;
     const stored = localStorage.getItem(recentKey);
@@ -81,7 +80,7 @@ const SearchModal = ({ onClose }: Props) => {
   const handleUserClick = (userResult: IRegisterData) => {
     addToRecentUsers(userResult);
 
-    if (currentUser?.id === userResult._id) {
+    if (currentUser?._id === userResult._id) {
       navigate("/myprofile");
     } else {
       navigate(`/user/${userResult._id}`);
@@ -105,7 +104,6 @@ const SearchModal = ({ onClose }: Props) => {
           />
         </form>
 
-        {/* Recent users */}
         {currentUser && recentUsers.length > 0 && (
           <>
             <p className={styles.recentText}>Recent</p>

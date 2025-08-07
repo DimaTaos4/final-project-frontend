@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUserById } from "../../redux/profile/profile.thunk";
 import { useSelector } from "react-redux";
-import { selectUsers } from "../../redux/users/users.selector";
 import { selectProfile } from "../../redux/profile/profile.selector";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import Loader from "../../shared/components/Loader/Loader";
@@ -14,8 +13,22 @@ import { AvatarIchgram } from "../../shared/components/icons/index";
 import UserPostModal from "./UserPostModal/UserPostModal";
 import { followUser, unfollowUser } from "../../redux/users/users.thunk";
 
+import FollowerModal from "../../shared/components/Modals/FollowersModal/FollowersModal";
+import FollowingModal from "../../shared/components/Modals/FollowingModal/FollowingModal";
+
+import {
+  getFollowersById,
+  getFollowingById,
+} from "../../shared/api/users/usersRoutes";
+
 const UserPage = () => {
   const [isUserModalOpened, setIsUserModalOpened] = useState(false);
+  const [isFollowerModal, setIsFollowerModal] = useState(false);
+  const [isFollowingModal, setIsFollowingModal] = useState(false);
+
+  const [dataFollowModal, setDataFollowModal] = useState([]);
+  const [dataFollowingModal, setDataFollowingModal] = useState([]);
+
   const [postId, setPostId] = useState("");
   const onOpenUserModal = (postId: string) => {
     setIsUserModalOpened(true);
@@ -23,11 +36,37 @@ const UserPage = () => {
   };
   const { id } = useParams();
 
+  const fetchDataFollowers = async (id: string) => {
+    try {
+      const data = await getFollowersById(id);
+      setDataFollowModal(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchDataFollowing = async (id: string) => {
+    try {
+      const data = await getFollowingById(id);
+      setDataFollowingModal(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  function onOpenFollowModal(id: string) {
+    setIsFollowerModal(true);
+
+    fetchDataFollowers(id);
+  }
+
+  function onOpenFollowingModal(id: string) {
+    setIsFollowingModal(true);
+    fetchDataFollowing(id);
+  }
+
   const dispatch = useAppDispatch();
-  const { user } = useSelector(selectUsers);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
   const { user: dataUser, loading, error } = useSelector(selectProfile);
   useEffect(() => {
     if (id) {
@@ -39,7 +78,6 @@ const UserPage = () => {
     async function fetchDataUser() {
       try {
         if (id) getUserById(id);
-        console.log(dataUser);
       } catch (error) {
         console.error(error);
       }
@@ -112,7 +150,7 @@ const UserPage = () => {
                 className={styles.unfollowBtn}
                 onClick={() => handleUnfollow(id, token as string)}
               >
-                Unfollow
+                Following
               </button>
             ) : (
               <button
@@ -123,17 +161,35 @@ const UserPage = () => {
               </button>
             )}
             <button className={styles.messageBtn}>Message</button>
+            {isFollowerModal && (
+              <FollowerModal
+                dataFollowers={dataFollowModal}
+                dataUser={dataUser}
+                onClose={() => setIsFollowerModal(false)}
+                handleUnfollow={handleUnfollow}
+                handleFollow={handleFollow}
+              />
+            )}
+            {isFollowingModal && (
+              <FollowingModal
+                onClose={() => setIsFollowingModal(false)}
+                dataFollowing={dataFollowingModal}
+                dataUser={dataUser}
+                handleUnfollow={handleUnfollow}
+                handleFollow={handleFollow}
+              />
+            )}
           </div>
           <div className={styles.infoAboutUser}>
             <p>
               <span className={styles.count}>{userPosts.length}</span> posts
             </p>
-            <p>
-              <span className={styles.count}>{dataUser?.followers.length}</span>{" "}
+            <p onClick={() => onOpenFollowModal(id)}>
+              <span className={styles.count}>{dataUser?.followers.length}</span>
               followers
             </p>
-            <p>
-              <span className={styles.count}>{dataUser?.following.length}</span>{" "}
+            <p onClick={() => onOpenFollowingModal(id)}>
+              <span className={styles.count}>{dataUser?.following.length}</span>
               following
             </p>
           </div>

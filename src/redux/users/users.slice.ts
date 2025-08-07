@@ -26,7 +26,7 @@ export interface IUserDoc {
 
 export interface AuthState {
   user: null | IUserDoc | string;
-  allUsers: null | IUserDoc;
+  allUsers?: null | IUserDoc;
   token: string | null;
   isAuth: boolean;
   loading: boolean;

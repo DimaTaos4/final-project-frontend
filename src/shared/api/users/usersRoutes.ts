@@ -109,3 +109,12 @@ export const unfollowUserApi = async (followedId: string, token: string) => {
   );
   return data;
 };
+
+export const getFollowersById = async (id: string) => {
+  const { data } = await backendInstance.get(`/${id}/followers`);
+  return data;
+};
+export const getFollowingById = async (id: string) => {
+  const { data } = await backendInstance.get(`/${id}/following`);
+  return data;
+};

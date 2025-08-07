@@ -1,0 +1,113 @@
+.overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    padding: 47px 0 0 0;
+}
+
+.followerModal {
+    width: 700px;
+    height: 800px;
+    background-color: #fff;
+    z-index: 1001;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.myUsername {
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-block-color);
+    width: 100%;
+    text-align: center;
+    padding: 4px 0;
+}
+
+.amountFollowers {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--border-block-color);
+}
+
+.amountFollowers p {
+    font-size: 16px;
+}
+
+.listFollowers {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: 100%;
+    max-height: 670px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.listFollowers::-webkit-scrollbar {
+    width: 6px;
+}
+
+.listFollowers::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.followInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+}
+
+.infoFollowBlock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatarImage {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: 550;
+    color: #000000;
+}
+
+.noBtn {
+    display: none;
+}
+
+.btnFunc {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    background-color: #0095F6;
+    color: #fff;
+    padding: 8px 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btnFollowing {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    background-color: #EFEFEF;
+    color: #000000;
+    padding: 8px 48px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

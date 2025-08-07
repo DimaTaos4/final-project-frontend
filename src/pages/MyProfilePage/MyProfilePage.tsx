@@ -9,16 +9,57 @@ import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import { useSelector } from "react-redux";
 import { selectUsers } from "../../redux/users/users.selector";
 import { getUserById } from "../../redux/users/users.thunk";
+import { getUserById as getUserByIdFromProfile } from "../../redux/profile/profile.thunk";
 import useAuth from "../../shared/hooks/useAuth";
 import { selectPosts } from "../../redux/posts/post.selector";
 import { getAllPosts, deletePost } from "../../redux/posts/post.thunk";
 import { clearPostById } from "../../redux/posts/post.slice";
+import { followUser, unfollowUser } from "../../redux/users/users.thunk";
+import FollowerModal from "../../shared/components/Modals/FollowersModal/FollowersModal";
+import FollowingModal from "../../shared/components/Modals/FollowingModal/FollowingModal";
+import {
+  getFollowersById,
+  getFollowingById,
+} from "../../shared/api/users/usersRoutes";
 
 const MyProfilePage = () => {
   const { user, token } = useAuth();
+  const dataUserFromLocalStorage = JSON.parse(
+    localStorage.getItem("user") as string
+  );
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
+  const [isFollowerModal, setIsFollowerModal] = useState(false);
+  const [isFollowingModal, setIsFollowingModal] = useState(false);
 
+  const [dataFollowers, setDataFollowers] = useState([]);
+  const [dataFollowing, setDataFollowing] = useState([]);
+
+  const fetchDataFollowers = async (id: string) => {
+    try {
+      const data = await getFollowersById(id);
+      setDataFollowers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const fetchDataFollowing = async (id: string) => {
+    try {
+      const data = await getFollowingById(id);
+      setDataFollowing(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  function handleOpenFollowerModal(id: string) {
+    setIsFollowerModal(true);
+    fetchDataFollowers(id);
+  }
+  function handleOpenFollowingModal(id: string) {
+    setIsFollowingModal(true);
+    fetchDataFollowing(id);
+  }
   const {
     user: dataUser,
     loading: loadingUser,
@@ -52,6 +93,17 @@ const MyProfilePage = () => {
     }
   };
 
+  const handleFollow = async (id: string, token: string) => {
+    if (!token) return <p>A User is unauthorized</p>;
+    await dispatch(followUser({ userId: id, token: token }));
+    await dispatch(getUserByIdFromProfile(id));
+  };
+
+  const handleUnfollow = async (id: string, token: string) => {
+    if (!token) return <p>A User is unauthorized</p>;
+    await dispatch(unfollowUser({ userId: id, token: token }));
+    await dispatch(getUserByIdFromProfile(id));
+  };
   return (
     <section className={styles.myProfilePage}>
       {loadingUser && <Loader loading={loadingUser} />}
@@ -84,13 +136,31 @@ const MyProfilePage = () => {
                 <p>
                   <span>{posts?.length ?? 0}</span> posts
                 </p>
-                <p>
+                <p onClick={() => handleOpenFollowerModal(user?.id as string)}>
                   <span>{dataUser?.followers?.length ?? 0}</span> followers
                 </p>
-                <p>
+                <p onClick={() => handleOpenFollowingModal(user?.id as string)}>
                   <span>{dataUser?.following?.length ?? 0}</span> following
                 </p>
               </div>
+              {isFollowerModal && (
+                <FollowerModal
+                  dataFollowers={dataFollowers}
+                  dataUser={dataUserFromLocalStorage}
+                  onClose={() => setIsFollowerModal(false)}
+                  handleFollow={handleFollow}
+                  handleUnfollow={handleUnfollow}
+                />
+              )}
+              {isFollowingModal && (
+                <FollowingModal
+                  dataUser={dataUserFromLocalStorage}
+                  dataFollowing={dataFollowing}
+                  onClose={() => setIsFollowingModal(false)}
+                  handleFollow={handleFollow}
+                  handleUnfollow={handleUnfollow}
+                />
+              )}
 
               <div className={styles.myProfileAbout}>{dataUser.bio}</div>
 

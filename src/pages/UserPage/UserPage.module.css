@@ -82,10 +82,12 @@
 .infoAboutUser p {
     font-weight: 400;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .count {
     font-weight: 600;
+    margin-right: 4px;
 }
 
 .textAboutUser {
