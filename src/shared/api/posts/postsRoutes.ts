@@ -30,7 +30,7 @@ export const uploadPostsApi = async (
   return data;
 };
 
-export const getAllPostsApi = async (token: string) => {
+export const getAllMyPostsApi = async (token: string) => {
   const { data } = await backendInstancePosts.get(`/mine`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -68,5 +68,10 @@ export const deletePostApi = async (id: string, token: string) => {
 
 export const getPostsByIdUser = async (userId: string) => {
   const { data } = await backendInstancePosts.get(`/byuser/${userId}`);
+  return data;
+};
+
+export const getAllPostsApi = async () => {
+  const { data } = await backendInstancePosts.get("/");
   return data;
 };

@@ -17,6 +17,8 @@ import VerifyEmailPage from "../VerifyEmailPage/VerifyEmailPage";
 import ResetPasswordPage from "../ResetPasswordPage/ResetPasswordPage";
 import SearchModal from "../../moduls/layouts/Sidebar/SearchModal/SearchModal";
 import UserPage from "../UserPage/UserPage";
+import ExplorePage from "../ExplorePage/ExplorePage";
+
 type NavigationProps = {
   isModalOpen: boolean;
   toggleModal: () => void;
@@ -45,6 +47,7 @@ const Navigation = ({
           <Route path="/myprofile" element={<MyProfilePage />} />
           <Route path="/edit" element={<EditProfilePage />} />
           <Route path="/user/:id" element={<UserPage />} />
+          <Route path="/explore" element={<ExplorePage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/legal/cookies" element={<CookiesPolicyPage />} />

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  getAllPostsApi,
+  getAllMyPostsApi,
   deletePostApi,
   getPostByIdApi,
   updatePostByIdApi,
@@ -22,7 +22,7 @@ export const getAllPosts = createAsyncThunk(
   "posts/getAllPosts",
   async (token: string, { rejectWithValue }) => {
     try {
-      const data = await getAllPostsApi(token);
+      const data = await getAllMyPostsApi(token);
       return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -56,7 +56,7 @@ export const updatePostById = createAsyncThunk(
   "post/updatePost",
   async ({ id, token, formData }: IUpdatePostProps, { rejectWithValue }) => {
     try {
-      const data = await updatePostByIdApi( id, token, formData );
+      const data = await updatePostByIdApi(id, token, formData);
       return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
