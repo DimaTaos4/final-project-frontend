@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 import type { IUserDoc } from "../../../redux/users/users.slice";
 import Comments from "../../../shared/components/Modals/PostModal/Comments/Comments";
 import { getRelativeTime } from "../../../shared/utils/dateUtils";
+import useAuth from "../../../shared/hooks/useAuth";
+import { Link } from "react-router-dom";
+
 interface PostIdProps {
   postId: string;
   onClose: () => void;
@@ -21,6 +24,8 @@ interface PostIdProps {
 const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
   const dispatch = useAppDispatch();
   const { postById } = useSelector(selectPosts);
+  const { user } = useAuth();
+  console.log(user);
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -77,7 +82,15 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
                 <AvatarIchgram size={28} color="white" />
               )}
 
-              <span className={styles.username}>{dataUser.userName}</span>
+              <Link
+                to={
+                  user?.id === dataUser._id
+                    ? `/myprofile`
+                    : `/user/${dataUser._id}`
+                }
+              >
+                <span className={styles.username}>{dataUser.userName}</span>
+              </Link>
             </div>
           </div>
 
@@ -94,7 +107,15 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
                   <AvatarIchgram size={28} color="white" />
                 )}
                 <div className={styles.infoText}>
-                  <span className={styles.username}>{dataUser.userName}</span>
+                  <Link
+                    to={
+                      user?.id === dataUser._id
+                        ? `/myprofile`
+                        : `/user/${dataUser._id}`
+                    }
+                  >
+                    <span className={styles.username}>{dataUser.userName}</span>
+                  </Link>
                   {postById?.caption}
                 </div>
               </div>
