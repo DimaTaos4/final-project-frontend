@@ -102,13 +102,15 @@ const UserPage = () => {
   const token = localStorage.getItem("token");
 
   const handleFollow = async (id: string, token: string) => {
-    if (!token) return <p>A User is unauthorized</p>;
+    if (!token)
+      return <p className={styles.errorText}>A User is unauthorized</p>;
     await dispatch(followUser({ userId: id, token: token }));
     await dispatch(getUserById(id));
   };
 
   const handleUnfollow = async (id: string, token: string) => {
-    if (!token) return <p>A User is unauthorized</p>;
+    if (!token)
+      return <p className={styles.errorText}>A User is unauthorized</p>;
     await dispatch(unfollowUser({ userId: id, token: token }));
     await dispatch(getUserById(id));
   };

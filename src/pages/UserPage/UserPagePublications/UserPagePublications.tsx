@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ichgramLogo from "../../../assets/ichgramLogo.png";
 import { MultiImageIcon } from "../../../shared/components/icons";
 import Loader from "../../../shared/components/Loader/Loader";
-
+import { AxiosError } from "axios";
 export interface Post {
   _id: string;
   imageUrls: string[];
@@ -22,7 +22,7 @@ interface UserIdPost {
 const UserPagePublications = ({ userId, onOpenUserModal }: UserIdPost) => {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [error, setError] = useState<AxiosError | null>(null);
   useEffect(() => {
     async function fetchDataUser() {
       try {
@@ -30,6 +30,7 @@ const UserPagePublications = ({ userId, onOpenUserModal }: UserIdPost) => {
         setUserPosts(userData);
       } catch (error) {
         console.error(error);
+        if (error instanceof AxiosError) setError(error);
       } finally {
         setLoading(false);
       }
@@ -39,7 +40,13 @@ const UserPagePublications = ({ userId, onOpenUserModal }: UserIdPost) => {
       fetchDataUser();
     }
   }, [userId]);
-
+  if (error) {
+    return (
+      <div className={styles.errorWrapper}>
+        <p className={styles.errorText}>{error.message}</p>
+      </div>
+    );
+  }
   return (
     <section className={styles.userPublications}>
       {loading ? (

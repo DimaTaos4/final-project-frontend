@@ -142,7 +142,35 @@
     color: #555;
     font-size: 14px;
     margin-top: 10px;
+    font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #555;
+    animation: typing 2s steps(20, end), blink 0.75s step-end infinite;
 }
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 160px;
+    }
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: #555;
+    }
+}
+
 
 .error {
     color: red;

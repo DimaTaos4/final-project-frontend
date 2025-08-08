@@ -7,6 +7,7 @@ import { AvatarIchgram } from "../../../../shared/components/icons";
 import { searchUsersApi } from "../../../../shared/api/users/usersRoutes";
 import type { IRegisterData } from "../../../../shared/api/users/usersRoutes";
 import Loader from "../../../../shared/components/Loader/Loader";
+import { AxiosError } from "axios";
 
 type Props = {
   onClose: () => void;
@@ -17,7 +18,7 @@ const SearchModal = ({ onClose }: Props) => {
   const [users, setUsers] = useState<null | IRegisterData[]>(null);
   const [recentUsers, setRecentUsers] = useState<IRegisterData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [error, setError] = useState<AxiosError | null>(null);
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("user") || "null");
 
@@ -38,6 +39,7 @@ const SearchModal = ({ onClose }: Props) => {
           setUsers(foundUsers);
         } catch (error) {
           console.error("Error searching users:", error);
+          if (error instanceof AxiosError) setError(error);
         } finally {
           setIsLoading(false);
         }
@@ -141,7 +143,10 @@ const SearchModal = ({ onClose }: Props) => {
           </>
         )}
 
-        {/* Search results */}
+        {error && (
+          <p className={styles.errorText}>{error.message || error.message}</p>
+        )}
+
         {users && users.length > 0 ? (
           <div className={styles.profileRecent}>
             {users.map((userResult) => (

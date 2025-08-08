@@ -7,20 +7,26 @@ import ichgramLogo from "../../assets/ichgramLogo.png";
 import UserPostModal from "../UserPage/UserPostModal/UserPostModal";
 import { getUserApiById } from "../../shared/api/users/usersRoutes";
 import type { IUserDoc } from "../../redux/profile/profile.slice";
-
+import { AxiosError } from "axios";
+import Loader from "../../shared/components/Loader/Loader";
 const ExplorePage = () => {
   const [postsData, setPostsData] = useState<IPostData[]>([]);
   const [isPostModalOpened, setIsPostModalOpened] = useState(false);
   const [postId, setPostId] = useState("");
+  const [loading, setLoading] = useState(false);
   const [dataUser, setDataUser] = useState<IUserDoc | null>(null);
-
+  const [error, setError] = useState<AxiosError | null>(null);
   useEffect(() => {
     async function fetchPostsData() {
       try {
+        setLoading(true);
         const data = await getAllPostsApi();
         setPostsData(data);
       } catch (error) {
         console.error(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     }
     fetchPostsData();
@@ -32,6 +38,7 @@ const ExplorePage = () => {
       setDataUser(data);
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) setError(error);
     }
   };
 
@@ -40,7 +47,19 @@ const ExplorePage = () => {
     setPostId(postId);
     fetchUserById(userId);
   };
-
+  if (loading)
+    return (
+      <div className={styles.loaderWrapper}>
+        <Loader loading={true} />
+      </div>
+    );
+  if (error) {
+    return (
+      <div className={styles.errorWrapper}>
+        <p className={styles.errorText}>{error.message}</p>
+      </div>
+    );
+  }
   return postsData.length > 0 ? (
     <section className={styles.explore}>
       {postsData.map((post: IPostData) => {

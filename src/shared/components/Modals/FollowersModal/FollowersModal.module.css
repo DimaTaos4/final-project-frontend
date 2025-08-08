@@ -50,6 +50,13 @@
     padding-right: 10px;
 }
 
+.noFollowersInfo {
+    display: flex;
+    justify-content: center;
+    padding-top: 300px;
+    color: rgb(166, 165, 165);
+}
+
 .listFollowers::-webkit-scrollbar {
     width: 6px;
 }

@@ -55,55 +55,60 @@ const FollowingModal = ({
         <div className={styles.amountFollowers}>
           <p>{dataFollowing.length} Following</p>
         </div>
+        {dataFollowing ? (
+          <div className={styles.listFollowers}>
+            {dataFollowing.map((data) => (
+              <div className={styles.followInfo} key={data._id}>
+                <div className={styles.infoFollowBlock}>
+                  {data.avatarUrl ? (
+                    <img
+                      src={data.avatarUrl}
+                      alt="avatar"
+                      className={styles.avatarImage}
+                    />
+                  ) : (
+                    <AvatarIchgram
+                      size={32}
+                      color="white"
+                      className="avatarImage"
+                    />
+                  )}
+                  <Link
+                    to={
+                      data._id === currentUser._id
+                        ? "/myprofile"
+                        : `/user/${data._id}`
+                    }
+                    onClick={() => onClose()}
+                  >
+                    <span className={styles.username}>{data.userName}</span>
+                  </Link>
+                </div>
 
-        <div className={styles.listFollowers}>
-          {dataFollowing.map((data) => (
-            <div className={styles.followInfo} key={data._id}>
-              <div className={styles.infoFollowBlock}>
-                {data.avatarUrl ? (
-                  <img
-                    src={data.avatarUrl}
-                    alt="avatar"
-                    className={styles.avatarImage}
-                  />
-                ) : (
-                  <AvatarIchgram
-                    size={32}
-                    color="white"
-                    className="avatarImage"
-                  />
-                )}
-                <Link
-                  to={
-                    data._id === currentUser._id
-                      ? "/myprofile"
-                      : `/user/${data._id}`
-                  }
-                  onClick={() => onClose()}
-                >
-                  <span className={styles.username}>{data.userName}</span>
-                </Link>
+                {data._id !== currentUser._id &&
+                  (currentUser.following.includes(data._id) ? (
+                    <button
+                      className={styles.btnFollowing}
+                      onClick={() => handleUnfollow(data._id, token as string)}
+                    >
+                      Following
+                    </button>
+                  ) : (
+                    <button
+                      className={styles.btnFunc}
+                      onClick={() => handleFollow(data._id, token as string)}
+                    >
+                      Follow
+                    </button>
+                  ))}
               </div>
-
-              {data._id !== currentUser._id &&
-                (currentUser.following.includes(data._id) ? (
-                  <button
-                    className={styles.btnFollowing}
-                    onClick={() => handleUnfollow(data._id, token as string)}
-                  >
-                    Following
-                  </button>
-                ) : (
-                  <button
-                    className={styles.btnFunc}
-                    onClick={() => handleFollow(data._id, token as string)}
-                  >
-                    Follow
-                  </button>
-                ))}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.notFollowingText}>
+            Not following anyone yet
+          </div>
+        )}
       </div>
     </section>
   );

@@ -108,7 +108,7 @@
 
 .error {
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     color: red;
 }
@@ -120,4 +120,11 @@
     font-weight: 700;
     animation: blink 1.2s ease-in-out infinite;
     color: #3f3f3f;
+}
+
+.errorText {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
 }

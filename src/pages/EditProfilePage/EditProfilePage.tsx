@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
 import { logout } from "../../redux/users/users.slice";
 import type { IValues } from "../../shared/api/users/usersRoutes";
+import { AxiosError } from "axios";
 import {
   editUserApi,
   getUserApiById,
@@ -53,6 +54,7 @@ const EditProfilePage = () => {
         setUserData(data);
       } catch (err) {
         console.error("Ошибка загрузки аватара:", err);
+        if (err instanceof AxiosError) setError(err);
       }
     };
 
