@@ -75,3 +75,8 @@ export const getAllPostsApi = async () => {
   const { data } = await backendInstancePosts.get("/");
   return data;
 };
+
+export const getPostFromFollowing = async (userId: string) => {
+  const { data } = await backendInstancePosts.get(`/feed/${userId}`);
+  return data;
+};

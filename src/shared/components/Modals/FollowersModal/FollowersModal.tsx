@@ -29,6 +29,7 @@ const FollowerModal = ({
   const token = localStorage.getItem("token");
   const { currentUser } = useAuth();
   console.log(currentUser);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

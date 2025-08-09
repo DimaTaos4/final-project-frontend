@@ -16,6 +16,7 @@
     flex-direction: column;
     border-bottom: 1px solid #DBDBDB;
     transition: box-shadow 0.2s ease-in-out;
+    cursor: pointer;
 }
 
 .blockPost:hover {
@@ -41,6 +42,7 @@
     margin-right: 15px;
     cursor: pointer;
     transition: color 0.2s;
+    color: #000;
 }
 
 .username:hover {
@@ -67,16 +69,32 @@
     transition: background-color 0.2s;
 }
 
+.btnFollow {
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    background-color: transparent;
+    color: #0095F6;
+    cursor: pointer;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
 .btnFollowing:hover {
     background-color: rgba(115, 115, 115, 0.1);
 }
 
 .image {
-    width: 25.18rem;
+    width: 100%;
+    height: 505px;
+    object-fit: cover;
     border-radius: 4px;
     margin-bottom: 13px;
     transition: filter 0.2s ease;
 }
+
 
 .image:hover {
     filter: brightness(0.95);
@@ -167,4 +185,125 @@
     line-height: 15.5px;
     color: #737373;
     margin-top: 4px;
+}
+
+.noFeedWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.noFeedBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.noFeedImage {
+    width: 120px;
+    margin-bottom: 24px;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+}
+
+.noFeedBlock:hover .noFeedImage {
+    transform: scale(1.05);
+}
+
+.noFeedTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #262626;
+}
+
+.noFeedText {
+    font-size: 14px;
+    color: #737373;
+    margin-bottom: 20px;
+}
+
+.noFeedButton {
+    display: inline-block;
+    background-color: #0095f6;
+    color: #fff;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.noFeedButton:hover {
+    background-color: #007acc;
+    transform: translateY(-1px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.errorWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff0f0;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+}
+
+.errorText {
+    color: #d8000c;
+    font-size: 16px;
+    font-weight: 500;
+    max-width: 500px;
+}
+
+.postImageWrapper {
+    position: relative;
+    width: 100%;
+    height: 505px;
+    margin-bottom: 13px;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+    transition: filter 0.2s ease;
+}
+
+.image:hover {
+    filter: brightness(0.95);
+}
+
+.multiIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px;
+    border-radius: 4px;
 }

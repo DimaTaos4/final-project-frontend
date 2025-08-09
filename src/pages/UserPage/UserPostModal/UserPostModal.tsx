@@ -9,16 +9,21 @@ import { useAppDispatch } from "../../../shared/hooks/useAppDispatch";
 import { selectPosts } from "../../../redux/posts/post.selector";
 import { getPostById } from "../../../redux/posts/post.thunk";
 import { useEffect, useState } from "react";
-import type { IUserDoc } from "../../../redux/users/users.slice";
 import Comments from "../../../shared/components/Modals/PostModal/Comments/Comments";
 import { getRelativeTime } from "../../../shared/utils/dateUtils";
 import useAuth from "../../../shared/hooks/useAuth";
 import { Link } from "react-router-dom";
 
+export interface DataUserProps {
+  _id: string;
+  userName: string;
+  avatarUrl?: string;
+}
+
 interface PostIdProps {
   postId: string;
   onClose: () => void;
-  dataUser: IUserDoc;
+  dataUser: DataUserProps;
 }
 
 const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
@@ -28,6 +33,7 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
   console.log(user);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
 
   useEffect(() => {
     dispatch(getPostById(postId));

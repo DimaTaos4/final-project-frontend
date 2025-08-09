@@ -4,6 +4,7 @@ import { IchgramIcon, AvatarIchgram } from "../../../shared/components/icons";
 import sidebarMenu from "./SidebarMenu/SidebarMenu";
 import useDataUser from "../../../shared/hooks/useDataUser";
 import Loader from "../../../shared/components/Loader/Loader";
+
 type SidebarProps = {
   onOpenModal: () => void;
   onOpenSearch: () => void;
