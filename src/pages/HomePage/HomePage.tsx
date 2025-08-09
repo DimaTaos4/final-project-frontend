@@ -120,11 +120,7 @@ const HomePage = () => {
               const isExpanded = expandedIndex === index;
 
               return (
-                <article
-                  key={post._id}
-                  className={styles.blockPost}
-                  onClick={() => handleOpenUserModal(post._id, post.author)}
-                >
+                <article key={post._id} className={styles.blockPost}>
                   <div className={styles.aboutWhom}>
                     <img
                       src={post.author.avatarUrl}
@@ -171,6 +167,9 @@ const HomePage = () => {
                         src={post.imageUrls[0]}
                         alt="post"
                         className={styles.image}
+                        onClick={() =>
+                          handleOpenUserModal(post._id, post.author)
+                        }
                       />
                       {post.imageUrls.length > 1 && (
                         <div className={styles.multiIcon}>
