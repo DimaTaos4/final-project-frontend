@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import styles from "./HomePage.module.css";
-import { LikeIcon } from "../../shared/components/icons";
+import { LikeIcon, MultiImageIcon } from "../../shared/components/icons";
 import CommentIcon from "../../shared/components/icons/CommentIcon";
 import checkedViewIcon from "../../assets/checkedView.png";
-import { getPostFromFollowing } from "../../shared/api/posts/postsRoutes";
+import ichgramLogo from "../../assets/ichgramLogo.png";
+
+import {
+  getPostFromFollowing,
+  likePostApi,
+} from "../../shared/api/posts/postsRoutes";
 import useAuth from "../../shared/hooks/useAuth";
 import { getRelativeTime } from "../../shared/utils/dateUtils";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
-import { getUserById } from "../../redux/profile/profile.thunk";
 import { followUser, unfollowUser } from "../../redux/users/users.thunk";
-import ichgramLogo from "../../assets/ichgramLogo.png";
-import { AxiosError } from "axios";
+import { getUserById } from "../../redux/profile/profile.thunk";
+
 import Loader from "../../shared/components/Loader/Loader";
-import { MultiImageIcon } from "../../shared/components/icons/index";
 import UserPostModal from "../UserPage/UserPostModal/UserPostModal";
 import type { DataUserProps } from "../UserPage/UserPostModal/UserPostModal";
+import type { AxiosError } from "axios";
 
 interface Post {
   _id: string;
@@ -25,6 +29,8 @@ interface Post {
     avatarUrl: string;
     followers: string[];
   };
+  likes: string[];
+  comments: string[];
   imageUrls: string[];
   caption: string;
   updatedAt: string;
@@ -34,24 +40,27 @@ interface Post {
 const HomePage = () => {
   const { user } = useAuth();
   const token = localStorage.getItem("token");
+  const dispatch = useAppDispatch();
+
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<AxiosError | null>(null);
+
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const [isUserModalOpened, setIsUserModalOpened] = useState(false);
   const [postId, setPostId] = useState("");
   const [dataUser, setDataUser] = useState<DataUserProps | null>(null);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError | null>(null);
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [isUserModalOpened, setIsUserModalOpened] = useState(false);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        if (!user) return null;
+        if (!user) return;
         const data = await getPostFromFollowing(user.id);
         setPosts(data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-        if (error instanceof AxiosError) setError(error);
+      } catch (err) {
+        if (err instanceof Error) setError(err as AxiosError);
       } finally {
         setLoading(false);
       }
@@ -59,26 +68,56 @@ const HomePage = () => {
 
     fetchPosts();
   }, []);
-  const dispatch = useAppDispatch();
-  const handleFollow = async (id: string, token: string) => {
-    if (!token)
-      return <p className={styles.errorText}>A User is unauthorized</p>;
-    await dispatch(followUser({ userId: id, token: token }));
+
+  const handleLike = async (postId: string) => {
+    if (!token || !user?.id) return;
+
+    try {
+      const updatedPost = await likePostApi(postId, token);
+
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPost._id
+            ? {
+                ...updatedPost,
+                author: post.author,
+                updatedAt: post.updatedAt,
+                createdAt: post.createdAt,
+              }
+            : post
+        )
+      );
+    } catch (err) {
+      console.error("Error liking post", err);
+    }
+  };
+
+  const handleFollow = async (id: string) => {
+    if (!token) return;
+    await dispatch(followUser({ userId: id, token }));
     await dispatch(getUserById(id));
   };
 
-  const handleUnfollow = async (id: string, token: string) => {
-    if (!token)
-      return <p className={styles.errorText}>A User is unauthorized</p>;
-    await dispatch(unfollowUser({ userId: id, token: token }));
+  const handleUnfollow = async (id: string) => {
+    if (!token) return;
+    await dispatch(unfollowUser({ userId: id, token }));
     await dispatch(getUserById(id));
   };
-  if (loading)
+
+  const handleOpenUserModal = (postId: string, dataUser: DataUserProps) => {
+    setIsUserModalOpened(true);
+    setPostId(postId);
+    setDataUser(dataUser);
+  };
+
+  if (loading) {
     return (
       <div className={styles.loaderWrapper}>
-        <Loader loading={true} />
+        <Loader loading />
       </div>
     );
+  }
+
   if (error) {
     return (
       <div className={styles.errorWrapper}>
@@ -86,12 +125,9 @@ const HomePage = () => {
       </div>
     );
   }
-
-  const handleOpenUserModal = (postId: string, dataUser: DataUserProps) => {
-    setIsUserModalOpened(true);
-    setPostId(postId);
-    setDataUser(dataUser);
-  };
+  if (!user?.id) {
+    return <p>Unauthorized</p>;
+  }
 
   return (
     <>
@@ -133,34 +169,32 @@ const HomePage = () => {
                       </span>
                     </Link>
                     <span className={styles.postDate}>
-                      {post?.updatedAt && post?.createdAt
-                        ? getRelativeTime(
-                            post.updatedAt !== post.createdAt
-                              ? post.updatedAt
-                              : post.createdAt
-                          )
-                        : "unknown"}
+                      {getRelativeTime(
+                        post.updatedAt !== post.createdAt
+                          ? post.updatedAt
+                          : post.createdAt
+                      )}
                     </span>
-                    {user && post.author.followers.includes(user.id) ? (
-                      <button
-                        className={styles.btnFollowing}
-                        onClick={() =>
-                          handleUnfollow(post.author._id, token as string)
-                        }
-                      >
-                        following
-                      </button>
-                    ) : (
-                      <button
-                        className={styles.btnFollow}
-                        onClick={() =>
-                          handleFollow(post.author._id, token as string)
-                        }
-                      >
-                        follow
-                      </button>
-                    )}
+
+                    {user &&
+                      post.author._id !== user.id &&
+                      (post.author.followers?.includes(user.id) ? (
+                        <button
+                          className={styles.btnFollowing}
+                          onClick={() => handleUnfollow(post.author._id)}
+                        >
+                          Following
+                        </button>
+                      ) : (
+                        <button
+                          className={styles.btnFollow}
+                          onClick={() => handleFollow(post.author._id)}
+                        >
+                          Follow
+                        </button>
+                      ))}
                   </div>
+
                   {post.imageUrls.length > 0 && (
                     <div className={styles.postImageWrapper}>
                       <img
@@ -180,22 +214,35 @@ const HomePage = () => {
                   )}
 
                   <div className={styles.likeCommentBlock}>
-                    <LikeIcon size={21} />
+                    <button
+                      className={styles.likeIcon}
+                      onClick={() => handleLike(post._id)}
+                    >
+                      <LikeIcon
+                        size={21}
+                        className={styles.likeIcon}
+                        color={
+                          post.likes?.includes(user?.id) ? "#FF0014" : undefined
+                        }
+                        filled={post.likes?.includes(user?.id)}
+                      />
+                    </button>
+
                     <CommentIcon size={21} color="#fff" />
                   </div>
 
-                  <p className={styles.amountLikes}>101 824 likes</p>
+                  <p className={styles.amountLikes}>
+                    {post.likes.length} likes
+                  </p>
 
                   <div className={styles.captionBlock}>
                     <span className={styles.username}>
                       {post.author.userName}
                     </span>
                     <span className={styles.caption}>
-                      <span className={styles.captionText}>
-                        {isExpanded || !isLong
-                          ? post.caption
-                          : post.caption.slice(0, 50) + "..."}
-                      </span>
+                      {isExpanded || !isLong
+                        ? post.caption
+                        : post.caption.slice(0, 50) + "..."}
                       {isLong && (
                         <button
                           className={styles.moreButton}
@@ -209,11 +256,14 @@ const HomePage = () => {
                     </span>
                   </div>
 
-                  <p className={styles.infoComments}>View all comments (732)</p>
+                  <p className={styles.infoComments}>
+                    View all comments ({post.comments.length})
+                  </p>
                 </article>
               );
             })}
           </main>
+
           {isUserModalOpened && dataUser && (
             <UserPostModal
               onClose={() => setIsUserModalOpened(false)}
@@ -221,6 +271,7 @@ const HomePage = () => {
               dataUser={dataUser}
             />
           )}
+
           <div className={styles.infoText}>
             <img
               src={checkedViewIcon}

@@ -1,18 +1,21 @@
 import styles from "./UserPostModal.module.css";
 
-import { LikeIcon } from "../../../shared/components/icons";
+import { LikeIcon, AvatarIchgram } from "../../../shared/components/icons";
 import CommentIcon from "../../../shared/components/icons/CommentIcon";
-import { AvatarIchgram } from "../../../shared/components/icons";
 import AddCommentForm from "../../../shared/components/Modals/PostModal/AddCommentForm/AddCommentForm";
+import Comments from "../../../shared/components/Modals/PostModal/Comments/Comments";
+
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../shared/hooks/useAppDispatch";
 import { selectPosts } from "../../../redux/posts/post.selector";
 import { getPostById } from "../../../redux/posts/post.thunk";
-import { useEffect, useState } from "react";
-import Comments from "../../../shared/components/Modals/PostModal/Comments/Comments";
 import { getRelativeTime } from "../../../shared/utils/dateUtils";
 import useAuth from "../../../shared/hooks/useAuth";
 import { Link } from "react-router-dom";
+import { likePostApi } from "../../../shared/api/posts/postsRoutes";
+import { AxiosError } from "axios";
+import type { IPostData } from "../../../shared/api/posts/postsRoutes";
 
 export interface DataUserProps {
   _id: string;
@@ -30,17 +33,32 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
   const dispatch = useAppDispatch();
   const { postById } = useSelector(selectPosts);
   const { user } = useAuth();
-  console.log(user);
+  const token = localStorage.getItem("token");
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [likeError, setLikeError] = useState<AxiosError | null>(null);
+  const [localPost, setLocalPost] = useState<IPostData | null>(null);
 
+  const [initialCreatedAt, setInitialCreatedAt] = useState<string | null>(null);
+  const [initialUpdatedAt, setInitialUpdatedAt] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(getPostById(postId));
     setCurrentIndex(0);
   }, [postId, dispatch]);
 
-  const images = postById?.imageUrls || [];
+  useEffect(() => {
+    if (postById) {
+      setLocalPost(postById as IPostData);
+
+      if (!initialCreatedAt && !initialUpdatedAt) {
+        setInitialCreatedAt(postById.createdAt);
+        setInitialUpdatedAt(postById.updatedAt);
+      }
+    }
+  }, [postById, initialCreatedAt, initialUpdatedAt]);
+
+  const images = localPost?.imageUrls || [];
   const hasMultiple = images.length > 1;
 
   const handlePrev = () => {
@@ -50,6 +68,37 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
+
+  const handleLike = async (postId: string, token: string) => {
+    try {
+      const updatedPost = await likePostApi(postId, token);
+
+      setLocalPost((prev) =>
+        prev ? { ...prev, likes: updatedPost.likes } : updatedPost
+      );
+    } catch (error) {
+      if (error instanceof AxiosError) setLikeError(error);
+    }
+  };
+
+  if (likeError) {
+    return (
+      <div className={styles.overlay}>
+        <div className={styles.modalCenter}>
+          <p className={styles.error}> {likeError.message}</p>
+          <button onClick={onClose}>Close</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!localPost || !user || !initialCreatedAt || !initialUpdatedAt)
+    return null;
+
+  const displayTime =
+    initialUpdatedAt !== initialCreatedAt
+      ? getRelativeTime(initialUpdatedAt) + " (edited)"
+      : getRelativeTime(initialCreatedAt);
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -62,7 +111,6 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
               alt={`slide-${currentIndex}`}
             />
           )}
-
           {hasMultiple && (
             <>
               <button className={styles.prevBtn} onClick={handlePrev}>
@@ -87,11 +135,10 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
               ) : (
                 <AvatarIchgram size={28} color="white" />
               )}
-
               <Link
                 to={
-                  user?.id === dataUser._id
-                    ? `/myprofile`
+                  user.id === dataUser._id
+                    ? "/myprofile"
                     : `/user/${dataUser._id}`
                 }
               >
@@ -115,44 +162,49 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
                 <div className={styles.infoText}>
                   <Link
                     to={
-                      user?.id === dataUser._id
-                        ? `/myprofile`
+                      user.id === dataUser._id
+                        ? "/myprofile"
                         : `/user/${dataUser._id}`
                     }
                   >
                     <span className={styles.username}>{dataUser.userName}</span>
                   </Link>
-                  {postById?.caption}
+                  {localPost.caption}
                 </div>
               </div>
+              <span className={styles.time}>{displayTime}</span>
             </div>
-            <Comments />
+            <Comments localPost={localPost} dataUser={dataUser} />
           </div>
 
           <div className={styles.footerBlockImage}>
             <div className={styles.likeCommentBlock}>
               <div className={styles.likeComment}>
-                <LikeIcon size={21} className={styles.likeIcon} />
-                <CommentIcon
-                  size={21}
-                  color="#fff"
-                  className={styles.commentIcon}
-                />
+                {localPost.likes?.includes(user.id) ? (
+                  <button
+                    onClick={() => handleLike(localPost._id, token as string)}
+                    className={styles.likeIcon}
+                  >
+                    <LikeIcon size={21} color="#FF0014" filled />
+                  </button>
+                ) : (
+                  <button
+                    className={styles.likeIcon}
+                    onClick={() => handleLike(localPost._id, token as string)}
+                  >
+                    <LikeIcon size={21} />
+                  </button>
+                )}
+                <CommentIcon size={21} color="#fff" />
               </div>
               <div className={styles.imageInfo}>
-                <p className={styles.likes}>25 likes</p>
-                <p className={styles.timeInLikeComment}>
-                  {postById?.updatedAt && postById?.createdAt
-                    ? getRelativeTime(
-                        postById.updatedAt !== postById.createdAt
-                          ? postById.updatedAt
-                          : postById.createdAt
-                      )
-                    : "unknown"}
+                <p className={styles.likes}>
+                  {localPost.likes?.length || 0} likes
                 </p>
+                <p className={styles.timeInLikeComment}>{displayTime}</p>
               </div>
             </div>
-            <AddCommentForm />
+            <AddCommentForm postId={postId} />
           </div>
         </div>
       </div>

@@ -156,6 +156,11 @@
 .likeIcon,
 .commentIcon {
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
 }
 
 .prevBtn,

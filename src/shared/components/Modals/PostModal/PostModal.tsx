@@ -13,6 +13,9 @@ import { AvatarIchgram } from "../../icons/index";
 import PostActionsModal from "./PostActionsModal/PostActionsModal";
 import EditPostModal from "../EditPostModal/EditPostModal";
 import { getRelativeTime } from "../../../utils/dateUtils";
+import { likePostApi } from "../../../api/posts/postsRoutes";
+import useAuth from "../../../hooks/useAuth";
+import { AxiosError } from "axios";
 
 interface PostModalProps {
   onClose: () => void;
@@ -33,8 +36,13 @@ const PostModal = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isActionsModalOpen, setIsActionsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [likeError, setLikeError] = useState<AxiosError | null>(null);
+  const [localPost, setLocalPost] = useState<IPostData>(post);
 
-  const { dataUser } = useDataUser(post.author);
+  const { dataUser } = useDataUser(post.author as string);
+
+  const { user } = useAuth();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,13 +76,23 @@ const PostModal = ({
     return (
       <div className={styles.overlay}>
         <div className={styles.modalCenter}>
-          <p className={styles.error}>Ошибка: {error}</p>
-          <button onClick={onClose}>Закрыть</button>
+          <p className={styles.error}> {error}</p>
+          <button onClick={onClose}>Close</button>
         </div>
       </div>
     );
   }
 
+  if (likeError) {
+    return (
+      <div className={styles.overlay}>
+        <div className={styles.modalCenter}>
+          <p className={styles.error}> {likeError.message}</p>
+          <button onClick={onClose}>Close</button>
+        </div>
+      </div>
+    );
+  }
   if (!post) return null;
 
   const hasMultipleImages = post.imageUrls && post.imageUrls.length > 1;
@@ -90,7 +108,17 @@ const PostModal = ({
       prevIndex === post.imageUrls.length - 1 ? 0 : prevIndex + 1
     );
   };
+  if (!user) return null;
 
+  const handleLike = async (postId: string, token: string) => {
+    try {
+      const data = await likePostApi(postId, token);
+      setLocalPost(data);
+    } catch (error) {
+      if (error instanceof AxiosError) setLikeError(error);
+    }
+  };
+  if (!dataUser) return;
   return (
     <>
       <div className={styles.overlay}>
@@ -152,7 +180,7 @@ const PostModal = ({
                   )}
                   <div className={styles.infoText}>
                     <span className={styles.username}>
-                      {dataUser?.userName}{" "}
+                      {dataUser?.userName}
                     </span>
                     {post.caption}
                   </div>
@@ -167,13 +195,33 @@ const PostModal = ({
                     : "unknown"}
                 </span>
               </div>
-              <Comments />
+              <Comments localPost={localPost} dataUser={dataUser} />
             </div>
 
             <div className={styles.footerBlockImage}>
               <div className={styles.likeCommentBlock}>
                 <div className={styles.likeComment}>
-                  <LikeIcon size={21} className={styles.likeIcon} />
+                  {localPost.likes?.includes(user?.id) ? (
+                    <button
+                      className={styles.likeIcon}
+                      onClick={() => handleLike(localPost._id, token as string)}
+                    >
+                      <LikeIcon
+                        size={21}
+                        className={styles.likeIcon}
+                        color="#FF0014"
+                        filled
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      className={styles.likeIcon}
+                      onClick={() => handleLike(localPost._id, token as string)}
+                    >
+                      <LikeIcon size={21} className={styles.likeIcon} />
+                    </button>
+                  )}
+
                   <CommentIcon
                     size={21}
                     color="#fff"
@@ -181,7 +229,9 @@ const PostModal = ({
                   />
                 </div>
                 <div className={styles.imageInfo}>
-                  <p className={styles.likes}>25 likes</p>
+                  <p className={styles.likes}>
+                    {localPost.likes?.length} likes
+                  </p>
                   <p className={styles.timeInLikeComment}>
                     {post.updatedAt && post.createdAt
                       ? getRelativeTime(

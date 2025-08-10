@@ -1,46 +1,62 @@
 import styles from "./Comments.module.css";
-import ava from "../../../../../assets/troubleImage.png";
 import { LikeIcon } from "../../../icons/index";
-const Comments = () => {
+import type { IPostData } from "../../../../api/posts/postsRoutes";
+import { AvatarIchgram } from "../../../icons/index";
+import { getRelativeTime } from "../../../../utils/dateUtils";
+
+interface DataUserProps {
+  _id: string;
+  userName: string;
+  avatarUrl?: string;
+}
+
+interface CommentsProps {
+  localPost: IPostData;
+  dataUser: DataUserProps;
+}
+
+const Comments = ({ localPost }: CommentsProps) => {
+  if (!localPost || !localPost.comments) return null;
+
   return (
     <div className={styles.commentsBlock}>
-      <div className={styles.commentRow}>
-        <div className={styles.commentsInfo}>
-          <img className={styles.ava} src={ava} alt="" />
-          <div className={styles.commentsTextInfo}>
-            <div className={styles.commentsText}>
-              <span className={styles.username}>profile_name</span>
-              <span className={styles.commentText}> вау супер! OMG!</span>
-            </div>
-            <div className={styles.commentData}>
-              <span className={styles.time}>17h.</span>
-              <span className={styles.likesInfo}>
-                Likes: <span className={styles.numberOfLike}>1</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <LikeIcon size={11} />
-      </div>
+      {localPost.comments.map((comment) => {
+        const user = comment.user;
 
-      <div className={styles.commentRow}>
-        <div className={styles.commentsInfo}>
-          <img className={styles.ava} src={ava} alt="" />
-          <div className={styles.commentsTextInfo}>
-            <div className={styles.commentsText}>
-              <span className={styles.username}>profile_name</span>
-              <span className={styles.commentText}> вау супер! OMG!</span>
+        return (
+          <div key={comment._id} className={styles.commentRow}>
+            <div className={styles.commentsInfo}>
+              {user && user.avatarUrl ? (
+                <img
+                  className={styles.ava}
+                  src={user.avatarUrl || "/default-avatar.png"}
+                  alt="avatar"
+                />
+              ) : (
+                <AvatarIchgram
+                  size={28}
+                  color="white"
+                  className="avatarImage"
+                />
+              )}
+              <div className={styles.commentsTextInfo}>
+                <div className={styles.commentsText}>
+                  <span className={styles.username}>
+                    {user?.userName || "Unknown"}
+                  </span>
+                  <span className={styles.commentText}>{comment.text}</span>
+                </div>
+                <div className={styles.commentData}>
+                  <span className={styles.time}>
+                    {getRelativeTime(comment.createdAt)}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className={styles.commentData}>
-              <span className={styles.time}>17h.</span>
-              <span className={styles.likesInfo}>
-                Likes: <span className={styles.numberOfLike}>1</span>
-              </span>
-            </div>
+            <LikeIcon size={11} />
           </div>
-        </div>
-        <LikeIcon size={11} className={styles.likeIcon} />
-      </div>
+        );
+      })}
     </div>
   );
 };

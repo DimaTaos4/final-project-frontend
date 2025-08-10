@@ -4,16 +4,21 @@ import { EmojiIcon } from "../../../icons/index";
 import EmojiPicker from "emoji-picker-react";
 import type { EmojiClickData } from "emoji-picker-react";
 import { useState, useRef, useEffect } from "react";
+import { commentPostApi } from "../../../../api/posts/postsRoutes";
+import { useAppDispatch } from "../../../../hooks/useAppDispatch";
+import { getPostById } from "../../../../../redux/posts/post.thunk";
 
 interface FormData {
   commentText: string;
 }
-
-const AddCommentForm = () => {
+interface PostIdProps {
+  postId: string;
+}
+const AddCommentForm = ({ postId }: PostIdProps) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const emojiPickerRef = useRef<HTMLDivElement | null>(null);
-
+  const [postData, setPostData] = useState([]);
   const {
     register,
     handleSubmit,
@@ -21,10 +26,26 @@ const AddCommentForm = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (value: FormData) => {
-    console.log(value.commentText);
-    reset();
+  const token = localStorage.getItem("token");
+  const dispatch = useAppDispatch();
+  const onSubmit = async (value: FormData) => {
+    try {
+      const data = await commentPostApi(
+        postId,
+        value.commentText,
+        token as string
+      );
+      setPostData(data);
+      reset();
+      dispatch(getPostById(postId));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    console.log(postData);
+  }, [postData]);
 
   const handleEmojiClick = (emojiData: EmojiClickData) => {
     const emoji = emojiData.emoji;
@@ -38,7 +59,6 @@ const AddCommentForm = () => {
 
       input.value = newText;
 
-      // Обновляем форму вручную
       input.dispatchEvent(new Event("input", { bubbles: true }));
 
       setTimeout(() => {
@@ -48,7 +68,6 @@ const AddCommentForm = () => {
     }
   };
 
-  // Закрытие emoji picker при клике вне него
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -80,7 +99,6 @@ const AddCommentForm = () => {
           }
         }}
       >
-        {/* Emoji Icon and Picker */}
         <div style={{ position: "relative" }}>
           <button
             type="button"
@@ -105,14 +123,13 @@ const AddCommentForm = () => {
           )}
         </div>
 
-        {/* Input Field */}
         <input
           {...register("commentText", {
             required: "To add comment please write something",
           })}
           ref={(el) => {
-            register("commentText").ref(el); // подключаем к react-hook-form
-            inputRef.current = el; // сохраняем DOM-ссылку
+            register("commentText").ref(el);
+            inputRef.current = el;
           }}
           className={styles.input}
           type="text"
