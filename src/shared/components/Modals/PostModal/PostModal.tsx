@@ -43,7 +43,9 @@ const PostModal = ({
 
   const { user } = useAuth();
   const token = localStorage.getItem("token");
-
+  useEffect(() => {
+    console.log(post);
+  });
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -118,7 +120,9 @@ const PostModal = ({
       if (error instanceof AxiosError) setLikeError(error);
     }
   };
+
   if (!dataUser) return;
+
   return (
     <>
       <div className={styles.overlay}>
@@ -195,7 +199,7 @@ const PostModal = ({
                     : "unknown"}
                 </span>
               </div>
-              <Comments localPost={localPost} dataUser={dataUser} />
+              <Comments localPost={post} />
             </div>
 
             <div className={styles.footerBlockImage}>
@@ -233,17 +237,13 @@ const PostModal = ({
                     {localPost.likes?.length} likes
                   </p>
                   <p className={styles.timeInLikeComment}>
-                    {post.updatedAt && post.createdAt
-                      ? getRelativeTime(
-                          post.updatedAt !== post.createdAt
-                            ? post.updatedAt
-                            : post.createdAt
-                        )
+                    {post.createdAt
+                      ? getRelativeTime(post.createdAt)
                       : "unknown"}
                   </p>
                 </div>
               </div>
-              <AddCommentForm />
+              <AddCommentForm postId={post._id} />
             </div>
           </div>
         </div>

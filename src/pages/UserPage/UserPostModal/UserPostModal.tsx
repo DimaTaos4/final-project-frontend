@@ -174,7 +174,7 @@ const UserPostModal = ({ postId, onClose, dataUser }: PostIdProps) => {
               </div>
               <span className={styles.time}>{displayTime}</span>
             </div>
-            <Comments localPost={localPost} dataUser={dataUser} />
+            <Comments localPost={localPost} />
           </div>
 
           <div className={styles.footerBlockImage}>

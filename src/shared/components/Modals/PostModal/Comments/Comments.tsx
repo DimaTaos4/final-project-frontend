@@ -4,15 +4,10 @@ import type { IPostData } from "../../../../api/posts/postsRoutes";
 import { AvatarIchgram } from "../../../icons/index";
 import { getRelativeTime } from "../../../../utils/dateUtils";
 
-interface DataUserProps {
-  _id: string;
-  userName: string;
-  avatarUrl?: string;
-}
+
 
 interface CommentsProps {
   localPost: IPostData;
-  dataUser: DataUserProps;
 }
 
 const Comments = ({ localPost }: CommentsProps) => {
