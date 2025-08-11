@@ -1,0 +1,4 @@
+.messagePage {
+    display: grid;
+    grid-template-columns: 397px 1fr;
+}

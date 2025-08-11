@@ -19,6 +19,9 @@ import SearchModal from "../../moduls/layouts/Sidebar/SearchModal/SearchModal";
 import NotificationsModal from "../../moduls/layouts/Sidebar/NotificationsModal/NotificationsModal";
 import UserPage from "../UserPage/UserPage";
 import ExplorePage from "../ExplorePage/ExplorePage";
+import MessagePage from "../MessagePage/MessagePage";
+import MessageWindow from "../MessagePage/MessageWindow/MessageWindow";
+import EmptyChat from "../MessagePage/EmptyChat/EmptyChat";
 
 type NavigationProps = {
   isModalOpen: boolean;
@@ -53,6 +56,10 @@ const Navigation = ({
           <Route path="/edit" element={<EditProfilePage />} />
           <Route path="/user/:id" element={<UserPage />} />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/messages" element={<MessagePage />}>
+            <Route index element={<EmptyChat />} />
+            <Route path="chat" element={<MessageWindow />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/legal/cookies" element={<CookiesPolicyPage />} />

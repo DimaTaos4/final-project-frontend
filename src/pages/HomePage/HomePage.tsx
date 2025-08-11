@@ -4,6 +4,7 @@ import { LikeIcon, MultiImageIcon } from "../../shared/components/icons";
 import CommentIcon from "../../shared/components/icons/CommentIcon";
 import checkedViewIcon from "../../assets/checkedView.png";
 import ichgramLogo from "../../assets/ichgramLogo.png";
+import { AvatarIchgram } from "../../shared/components/icons/index";
 import {
   getPostFromFollowing,
   likePostApi,
@@ -101,6 +102,7 @@ const HomePage = () => {
     if (!token) return;
     await dispatch(unfollowUser({ userId: id, token }));
     await dispatch(getUserById(id));
+    setPosts((prevPosts) => prevPosts.filter((post) => post.author._id !== id));
   };
 
   const handleOpenUserModal = (postId: string, dataUser: DataUserProps) => {
@@ -157,11 +159,19 @@ const HomePage = () => {
               return (
                 <article key={post._id} className={styles.blockPost}>
                   <div className={styles.aboutWhom}>
-                    <img
-                      src={post.author.avatarUrl}
-                      alt="avatar"
-                      className={styles.avatar}
-                    />
+                    {post.author.avatarUrl ? (
+                      <img
+                        src={post.author.avatarUrl}
+                        alt="avatar"
+                        className={styles.avatar}
+                      />
+                    ) : (
+                      <AvatarIchgram
+                        size={28}
+                        color="white"
+                        className="avatarImage"
+                      />
+                    )}
                     <Link to={`/user/${post.author._id}`}>
                       <span className={styles.username}>
                         {post.author.userName}

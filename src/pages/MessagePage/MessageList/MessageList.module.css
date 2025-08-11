@@ -1,0 +1,57 @@
+.messageList {
+    border-right: 1px solid var(--border-block-color);
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.messageInfo {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0 8px 24px;
+    align-items: center;
+}
+
+.linkMessage {
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s ease;
+}
+
+.linkMessage:global(.active) {
+    background-color: #EFEFEF;
+}
+
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+}
+
+.username {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 37px 0 58px 24px;
+}
+
+.messageText {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.usernameSender {
+    font-weight: 400;
+    font-size: 14px;
+    color: #000;
+}
+
+.infoSenderBlock,
+.sendTime {
+    font-weight: 400;
+    font-size: 12px;
+    color: #737373;
+}
+
+.sendTime {
+    margin-left: 11px;
+}

@@ -31,7 +31,7 @@ const sidebarMenu = [
   {
     id: nanoid(),
     icon: <MessageIcon size={24} />,
-    toPage: "/message",
+    toPage: "/messages",
     text: "Message",
   },
   {

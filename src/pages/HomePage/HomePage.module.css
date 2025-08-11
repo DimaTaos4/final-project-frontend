@@ -29,12 +29,18 @@
     margin-bottom: 13px;
 }
 
+.aboutWhom svg {
+    margin-right: 11px;
+}
+
 .avatar {
     width: 28px;
     height: 28px;
     border-radius: 50%;
     margin-right: 11px;
 }
+
+
 
 .username {
     font-weight: 600;
