@@ -16,6 +16,7 @@ import PrivacyPage from "../PrivacyPage/PrivacyPage";
 import VerifyEmailPage from "../VerifyEmailPage/VerifyEmailPage";
 import ResetPasswordPage from "../ResetPasswordPage/ResetPasswordPage";
 import SearchModal from "../../moduls/layouts/Sidebar/SearchModal/SearchModal";
+import NotificationsModal from "../../moduls/layouts/Sidebar/NotificationsModal/NotificationsModal";
 import UserPage from "../UserPage/UserPage";
 import ExplorePage from "../ExplorePage/ExplorePage";
 
@@ -24,6 +25,8 @@ type NavigationProps = {
   toggleModal: () => void;
   isSearchOpen: boolean;
   toggleSearch: () => void;
+  isNotificationOpen: boolean;
+  toggleNotification: () => void;
 };
 
 const Navigation = ({
@@ -31,6 +34,8 @@ const Navigation = ({
   toggleModal,
   isSearchOpen,
   toggleSearch,
+  isNotificationOpen,
+  toggleNotification,
 }: NavigationProps) => {
   return (
     <div className={styles.navigation}>
@@ -57,6 +62,9 @@ const Navigation = ({
 
       {isModalOpen && <CreateModal onClose={toggleModal} />}
       {isSearchOpen && <SearchModal onClose={toggleSearch} />}
+      {isNotificationOpen && (
+        <NotificationsModal onClose={toggleNotification} />
+      )}
     </div>
   );
 };

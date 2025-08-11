@@ -8,9 +8,14 @@ import Loader from "../../../shared/components/Loader/Loader";
 type SidebarProps = {
   onOpenModal: () => void;
   onOpenSearch: () => void;
+  onOpenNotification: () => void;
 };
 
-const Sidebar = ({ onOpenModal, onOpenSearch }: SidebarProps) => {
+const Sidebar = ({
+  onOpenModal,
+  onOpenSearch,
+  onOpenNotification,
+}: SidebarProps) => {
   const userString = localStorage.getItem("user");
   const user = userString ? JSON.parse(userString) : null;
 
@@ -45,6 +50,19 @@ const Sidebar = ({ onOpenModal, onOpenSearch }: SidebarProps) => {
           key={menu.id}
           className={styles.iconMenu}
           onClick={onOpenSearch}
+          type="button"
+        >
+          {menu.icon}
+          <span>{menu.text}</span>
+        </button>
+      );
+    }
+    if (menu.isModal && menu.text === "Notification") {
+      return (
+        <button
+          key={menu.id}
+          className={styles.iconMenu}
+          onClick={onOpenNotification}
           type="button"
         >
           {menu.icon}
