@@ -21,6 +21,7 @@ import {
   getFollowingById,
 } from "../../shared/api/users/usersRoutes";
 
+
 const UserPage = () => {
   const [isUserModalOpened, setIsUserModalOpened] = useState(false);
   const [isFollowerModal, setIsFollowerModal] = useState(false);

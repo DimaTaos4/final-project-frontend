@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
+import { AxiosError } from "axios";
 
 import styles from "./SearchModal.module.css";
 import { AvatarIchgram } from "../../../../shared/components/icons";
 import { searchUsersApi } from "../../../../shared/api/users/usersRoutes";
 import type { IRegisterData } from "../../../../shared/api/users/usersRoutes";
 import Loader from "../../../../shared/components/Loader/Loader";
-import { AxiosError } from "axios";
 
 type Props = {
   onClose: () => void;
@@ -15,14 +15,15 @@ type Props = {
 
 const SearchModal = ({ onClose }: Props) => {
   const [userValue, setUserValue] = useState("");
-  const [users, setUsers] = useState<null | IRegisterData[]>(null);
+  const [users, setUsers] = useState<IRegisterData[] | null>(null);
   const [recentUsers, setRecentUsers] = useState<IRegisterData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<AxiosError | null>(null);
   const navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
 
-  const recentKey = currentUser ? `recentUsers_${currentUser.id}` : null;
+  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+  const currentUserId = currentUser?._id;
+  const recentKey = currentUserId ? `recentUsers_${currentUserId}` : null;
 
   const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -30,27 +31,7 @@ const SearchModal = ({ onClose }: Props) => {
     }
   };
 
-  useEffect(() => {
-    const delay = setTimeout(async () => {
-      if (userValue.trim() !== "") {
-        try {
-          setIsLoading(true);
-          const foundUsers = await searchUsersApi(userValue);
-          setUsers(foundUsers);
-        } catch (error) {
-          console.error("Error searching users:", error);
-          if (error instanceof AxiosError) setError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        setUsers(null);
-      }
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [userValue]);
-
+  // Fetch recent users from localStorage
   useEffect(() => {
     if (!recentKey) return;
     const stored = localStorage.getItem(recentKey);
@@ -59,6 +40,31 @@ const SearchModal = ({ onClose }: Props) => {
     }
   }, [recentKey]);
 
+  // Debounced user search
+  useEffect(() => {
+    const delay = setTimeout(async () => {
+      if (userValue.trim() === "") {
+        setUsers(null);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        const foundUsers = await searchUsersApi(userValue);
+        setUsers(foundUsers);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          setError(err);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(delay);
+  }, [userValue]);
+
+  // Save updated recent users to localStorage
   const saveRecentToStorage = (updated: IRegisterData[]) => {
     if (recentKey) {
       localStorage.setItem(recentKey, JSON.stringify(updated));
@@ -82,7 +88,7 @@ const SearchModal = ({ onClose }: Props) => {
   const handleUserClick = (userResult: IRegisterData) => {
     addToRecentUsers(userResult);
 
-    if (currentUser?._id === userResult._id) {
+    if (currentUserId === userResult._id) {
       navigate("/myprofile");
     } else {
       navigate(`/user/${userResult._id}`);
@@ -106,12 +112,13 @@ const SearchModal = ({ onClose }: Props) => {
           />
         </form>
 
-        {currentUser && recentUsers.length > 0 && (
+        {/* Recent Users */}
+        {currentUserId && recentUsers.length > 0 && (
           <>
             <p className={styles.recentText}>Recent</p>
             <div className={styles.profileRecent}>
               {recentUsers
-                .filter((u) => u._id !== currentUser.id)
+                .filter((u) => u._id !== currentUserId)
                 .map((recentUser) => (
                   <div
                     className={styles.profile}
@@ -143,10 +150,14 @@ const SearchModal = ({ onClose }: Props) => {
           </>
         )}
 
+        {/* Error */}
         {error && (
-          <p className={styles.errorText}>{error.message || error.message}</p>
+          <p className={styles.errorText}>
+            {error.message || "Error while searching"}
+          </p>
         )}
 
+        {/* Search Results */}
         {users && users.length > 0 ? (
           <div className={styles.profileRecent}>
             {users.map((userResult) => (

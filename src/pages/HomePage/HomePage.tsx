@@ -4,7 +4,6 @@ import { LikeIcon, MultiImageIcon } from "../../shared/components/icons";
 import CommentIcon from "../../shared/components/icons/CommentIcon";
 import checkedViewIcon from "../../assets/checkedView.png";
 import ichgramLogo from "../../assets/ichgramLogo.png";
-
 import {
   getPostFromFollowing,
   likePostApi,

@@ -78,6 +78,10 @@
     cursor: pointer;
 }
 
+.usernameLink {
+    color: #000;
+}
+
 .infoText {
     font-weight: 400;
     font-size: 14px;
@@ -87,7 +91,6 @@
     color: #737373;
     font-weight: 400;
     font-size: 14px;
-    margin-left: 6px;
 }
 
 .postImage {
@@ -95,4 +98,9 @@
     height: 44px;
     border-radius: 8px;
     cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
 }

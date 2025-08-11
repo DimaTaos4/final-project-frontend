@@ -5,7 +5,7 @@ interface IUser {
   avatarUrl?: string;
 }
 
-interface IComment {
+export interface IComment {
   _id: string;
   user: IUser;
   text: string;

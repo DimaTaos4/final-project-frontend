@@ -6,6 +6,7 @@ import {
   updatePostById,
 } from "./post.thunk";
 import type { IPostData } from "../../shared/api/posts/postsRoutes";
+import type { IComment } from "../../shared/api/posts/postsRoutes";
 
 interface PostByIdProps {
   _id: string;
@@ -14,6 +15,8 @@ interface PostByIdProps {
   caption: string;
   createdAt: string;
   updatedAt: string;
+  likes: string[];
+  comments: IComment[];
 }
 
 export interface InitialStatePost {
