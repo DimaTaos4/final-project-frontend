@@ -58,7 +58,7 @@ const Navigation = ({
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/messages" element={<MessagePage />}>
             <Route index element={<EmptyChat />} />
-            <Route path="chat" element={<MessageWindow />} />
+            <Route path=":chatId" element={<MessageWindow />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />

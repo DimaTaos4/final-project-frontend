@@ -12,6 +12,10 @@
     border-bottom: 1px solid var(--border-block-color);
 }
 
+.headerWindow svg {
+    margin-right: 12px;
+}
+
 .avatarHeader {
     width: 44px;
     height: 44px;
@@ -36,6 +40,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.infoPartner svg {
+    margin-bottom: 17px;
+    margin-top: 63px;
 }
 
 .avatarPartner {
@@ -89,12 +98,6 @@
     gap: 10px;
 }
 
-.avatarLeft {
-    min-width: 28px;
-    height: 28px;
-    border-radius: 50%;
-}
-
 .textIncoming {
     background-color: #efefef;
     color: #000;
@@ -115,10 +118,12 @@
     gap: 10px;
 }
 
+.avatarLeft,
 .avatarRight {
-    min-width: 28px;
+    width: 28px;
     height: 28px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .textOutgoing {
@@ -146,7 +151,12 @@
     border: 1px solid #ddd;
     font-size: 14px;
     outline: none;
+    resize: none;
+    overflow-y: auto;
+    line-height: 1.4;
+    max-height: 200px;
 }
+
 
 .btnSendMessage {
     padding: 10px 16px;

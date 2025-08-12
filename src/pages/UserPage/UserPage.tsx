@@ -12,15 +12,14 @@ import Loader from "../../shared/components/Loader/Loader";
 import { AvatarIchgram } from "../../shared/components/icons/index";
 import UserPostModal from "./UserPostModal/UserPostModal";
 import { followUser, unfollowUser } from "../../redux/users/users.thunk";
-
+import { getChatApi } from "../../shared/api/chats/chatsRoutes";
 import FollowerModal from "../../shared/components/Modals/FollowersModal/FollowersModal";
 import FollowingModal from "../../shared/components/Modals/FollowingModal/FollowingModal";
-
+import { useNavigate } from "react-router-dom";
 import {
   getFollowersById,
   getFollowingById,
 } from "../../shared/api/users/usersRoutes";
-
 
 const UserPage = () => {
   const [isUserModalOpened, setIsUserModalOpened] = useState(false);
@@ -115,6 +114,19 @@ const UserPage = () => {
     await dispatch(unfollowUser({ userId: id, token: token }));
     await dispatch(getUserById(id));
   };
+
+  
+  const navigate = useNavigate();
+
+  const handleToMessage = async (recipientId: string, token: string) => {
+    try {
+      const { chatId } = await getChatApi(recipientId, token);
+      navigate(`/messages/${chatId}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (loading) {
     return (
       <div className={styles.loadingPosts}>
@@ -163,7 +175,12 @@ const UserPage = () => {
                 Follow
               </button>
             )}
-            <button className={styles.messageBtn}>Message</button>
+            <button
+              className={styles.messageBtn}
+              onClick={() => handleToMessage(dataUser._id, token as string)}
+            >
+              Message
+            </button>
             {isFollowerModal && (
               <FollowerModal
                 dataFollowers={dataFollowModal}

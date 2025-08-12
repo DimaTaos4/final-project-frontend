@@ -1,6 +1,11 @@
 import axios from "axios";
-const { VITE_API_USERS_URL, VITE_API_POSTS_URL, VITE_API_NOTIFICATIONS_URL } =
-  import.meta.env;
+const {
+  VITE_API_USERS_URL,
+  VITE_API_POSTS_URL,
+  VITE_API_NOTIFICATIONS_URL,
+  VITE_API_CHATS_URL,
+  VITE_API_MESSAGES_URL,
+} = import.meta.env;
 
 export const backendInstance = axios.create({
   baseURL: VITE_API_USERS_URL,
@@ -24,4 +29,12 @@ backendInstancePosts.interceptors.response.use(
 
 export const backendInstanceNotifications = axios.create({
   baseURL: VITE_API_NOTIFICATIONS_URL,
+});
+
+export const backendInstanceChats = axios.create({
+  baseURL: VITE_API_CHATS_URL,
+});
+
+export const backendInstanceMessages = axios.create({
+  baseURL: VITE_API_MESSAGES_URL,
 });
