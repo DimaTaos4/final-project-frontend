@@ -23,7 +23,11 @@ const LoginPage = () => {
 
   return (
     <div className={styles.loginPage}>
-      <img src={ichgramBackground} alt="background" />
+      <img
+        src={ichgramBackground}
+        alt="background"
+        className={styles.imageBackground}
+      />
       <div className={styles.blocksForm}>
         <div className={styles.blockForm1}>
           <img src={ichgramLogo} alt="logo" />

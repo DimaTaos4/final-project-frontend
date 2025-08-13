@@ -1,7 +1,7 @@
 .notFoundPage {
     display: flex;
     gap: 44px;
-    padding: 94px 0 0 119px;
+    padding: 94px 20px 0 119px;
 }
 
 .notFoundMessages {
@@ -23,4 +23,48 @@
     line-height: 20px;
     color: #737373;
     width: 51%;
+}
+
+@media (max-width:851px) {
+    .notFoundPage {
+        align-items: center;
+    }
+
+    .imageBackground {
+        width: 16rem;
+    }
+}
+
+@media (max-width:679px) {
+    .notFoundPage {
+        justify-content: center;
+        flex-direction: column-reverse;
+        display: flex;
+        gap: 10px;
+        padding: 20px;
+    }
+
+    .notFoundMessages {
+        margin-top: 0;
+    }
+
+    .imageBackground {
+        width: 16rem;
+    }
+
+    .notFoundMessages h2 {
+        font-weight: 700;
+        font-style: Bold;
+        font-size: 30px;
+        margin-top: 20px;
+    }
+
+    .notFoundMessages p {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #737373;
+        width: 100%;
+        margin-top: 20px;
+    }
 }

@@ -4,7 +4,11 @@ const NotFoundPage = () => {
   return (
     <div className={styles.notFoundPage}>
       <div>
-        <img src={ichgramBackground} alt="ichgram background" />
+        <img
+          src={ichgramBackground}
+          alt="ichgram background"
+          className={styles.imageBackground}
+        />
       </div>
       <div className={styles.notFoundMessages}>
         <h2>Oops! Page Not Found (404 Error)</h2>

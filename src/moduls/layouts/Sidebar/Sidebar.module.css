@@ -62,3 +62,54 @@
 .navAndModal {
     display: flex;
 }
+
+@media (max-width:663px) {
+    .sidebar {
+        padding: 28px 0 0 15px;
+        border-right: 1px solid var(--border-block-color);
+        height: 100vh;
+    }
+
+    .iconMenu {
+        gap: 8px;
+    }
+}
+
+@media (max-width:663px) {
+    .textMenu {
+        font-size: 14px;
+    }
+}
+
+@media (max-width:538px) {
+    .ichgramIcon {
+        display: none;
+    }
+
+    .textMenu {
+        display: none;
+    }
+
+
+    .iconsMenu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 20px;
+        margin-left: 20px;
+        margin-bottom: 0;
+        margin-top: auto;
+    }
+
+    .sidebar {
+        padding: 28px 15px 0 15px;
+        border-right: 1px solid var(--border-block-color);
+        height: 100vh;
+    }
+
+    .textProfile {
+        display: none;
+    }
+
+
+}

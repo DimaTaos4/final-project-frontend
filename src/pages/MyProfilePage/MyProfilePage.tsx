@@ -116,11 +116,22 @@ const MyProfilePage = () => {
               {dataUser.avatarUrl ? (
                 <img src={dataUser.avatarUrl} alt="avatar" />
               ) : (
-                <AvatarIchgram
-                  size={150}
-                  color="white"
-                  className="avatarImage"
-                />
+                <>
+                  <div className={styles.avaIch}>
+                    <AvatarIchgram
+                      size={150}
+                      color="white"
+                      className="avatarImage"
+                    />
+                  </div>
+                  <div className={styles.avaMedia}>
+                    <AvatarIchgram
+                      size={100}
+                      color="white"
+                      className="avatarImage"
+                    />
+                  </div>
+                </>
               )}
             </div>
 

@@ -30,3 +30,9 @@
     font-size: 12px;
     color: #737373;
 }
+
+@media (max-width:538px) {
+    .footer {
+        display: none;
+    }
+}

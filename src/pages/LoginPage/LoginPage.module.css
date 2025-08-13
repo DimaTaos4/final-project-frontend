@@ -89,3 +89,27 @@
     font-size: 12px;
     color: #00376B;
 }
+
+@media (max-width:800px) {
+    .loginPage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 120px;
+    }
+
+    .imageBackground {
+        width: 40%;
+        height: 50%;
+    }
+}
+
+@media (max-width:646px) {
+    .imageBackground {
+        display: none;
+    }
+
+
+
+}

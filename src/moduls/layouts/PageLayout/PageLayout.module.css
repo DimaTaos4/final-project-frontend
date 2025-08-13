@@ -2,3 +2,23 @@
     display: grid;
     grid-template-columns: 245px 1fr;
 }
+
+@media (max-width:663px) {
+    .pageLayout {
+        grid-template-columns: 160px 1fr;
+    }
+}
+
+@media (max-width:575px) {
+    .pageLayout {
+        grid-template-columns: 140px 1fr;
+    }
+}
+
+@media (max-width:538px) {
+    .pageLayout {
+        display: flex;
+        flex-direction: column-reverse;
+        height: 100vh;
+    }
+}

@@ -11,6 +11,10 @@
 
 }
 
+.avaMedia {
+    display: none;
+}
+
 .myProfileAvatar img {
     width: 150px;
     height: 150px;
@@ -75,4 +79,79 @@
     font-weight: 600;
     font-size: 14px;
     color: #00376B;
+}
+
+@media (max-width:1055px) {
+    .myProfilePage {
+        display: flex;
+        flex-direction: column;
+        padding: 38px 40px 0 40px;
+    }
+
+    .myProfileBlock {
+        gap: 30px;
+    }
+}
+
+@media (max-width:884px) {
+    .myProfilePage {
+        padding: 38px 20px 0 20px;
+    }
+
+    .myProfileAvatar img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 20px 0 20px;
+    }
+}
+
+@media (max-width:848px) {
+    .myProfilePage {
+        padding: 38px 10px 0 5px;
+    }
+
+    .myProfileBlock {
+        gap: 10px;
+    }
+
+    .avaIch {
+        display: none;
+    }
+
+    .avaMedia {
+        display: block;
+    }
+
+    .username {
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+    .btnEdit {
+        font-size: 12px;
+        padding: 6px 20px;
+    }
+
+
+}
+
+@media (max-width:753px) {
+    .audience {
+        gap: 40px;
+        margin-bottom: 20px;
+    }
+
+    .audience p {
+        font-size: 13px;
+    }
+}
+
+@media (max-width:560px) {
+    .myProfileAvatar img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 10px 0 10px;
+    }
 }

@@ -26,7 +26,7 @@ const Sidebar = ({
       return (
         <NavLink key={menu.id} to={menu.toPage} className={styles.iconMenu}>
           {menu.icon}
-          <span>{menu.text}</span>
+          <span className={styles.textMenu}>{menu.text}</span>
         </NavLink>
       );
     }
@@ -40,7 +40,7 @@ const Sidebar = ({
           type="button"
         >
           {menu.icon}
-          <span>{menu.text}</span>
+          <span className={styles.textMenu}>{menu.text}</span>
         </button>
       );
     }
@@ -53,7 +53,7 @@ const Sidebar = ({
           type="button"
         >
           {menu.icon}
-          <span>{menu.text}</span>
+          <span className={styles.textMenu}>{menu.text}</span>
         </button>
       );
     }
@@ -66,7 +66,7 @@ const Sidebar = ({
           type="button"
         >
           {menu.icon}
-          <span>{menu.text}</span>
+          <span className={styles.textMenu}>{menu.text}</span>
         </button>
       );
     }
@@ -96,7 +96,7 @@ const Sidebar = ({
           <Loader loading={loadingUser} />
         </div>
       )}
-      {errorUser && <p className={styles.error}>Ошибка загрузки профиля</p>}
+      {errorUser && <p className={styles.error}>Error loading profile</p>}
 
       {!loadingUser && dataUser && (
         <NavLink to="/myprofile" className={styles.profileClass}>
@@ -109,7 +109,7 @@ const Sidebar = ({
           ) : (
             <AvatarIchgram size={24} color="white" className="avatarImage" />
           )}
-          Profile
+          <span className={styles.textProfile}>Profile</span>
         </NavLink>
       )}
     </nav>

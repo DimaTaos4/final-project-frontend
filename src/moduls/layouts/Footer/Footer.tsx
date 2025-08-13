@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   const element = sidebarMenu.map((menu) => (
-    <Link key={menu.id} className={styles.footerItem} to={menu.toPage}>
+    <Link key={menu.id} to={`${menu.toPage}`} className={styles.footerItem}>
       {menu.text}
     </Link>
   ));
