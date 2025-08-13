@@ -28,7 +28,6 @@ const FollowingModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const token = localStorage.getItem("token");
   const { currentUser } = useAuth();
-  console.log(currentUser);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
