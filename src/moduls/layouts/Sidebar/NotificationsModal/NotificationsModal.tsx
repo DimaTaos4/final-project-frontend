@@ -2,11 +2,18 @@ import styles from "./NotificationsModal.module.css";
 import { AvatarIchgram } from "../../../../shared/components/icons";
 import { useEffect, useState } from "react";
 import { getNotificationsApi } from "../../../../shared/api/notifications/notificationsRoutes";
+import { getPostByIdApi } from "../../../../shared/api/posts/postsRoutes";
 import { AxiosError } from "axios";
 import Loader from "../../../../shared/components/Loader/Loader";
 import { Link } from "react-router-dom";
 import { getRelativeTime } from "../../../../shared/utils/dateUtils";
 import ichgramLogo from "../../../../assets/ichgramLogo.png";
+import PostModal from "../../../../shared/components/Modals/PostModal/PostModal";
+import type { IPostData } from "../../../../shared/api/posts/postsRoutes";
+import { deletePost, getAllPosts } from "../../../../redux/posts/post.thunk";
+import { useAppDispatch } from "../../../../shared/hooks/useAppDispatch";
+import { toast } from "react-toastify";
+
 interface NotifModalProps {
   onClose: () => void;
 }
@@ -29,16 +36,16 @@ interface Notification {
 }
 
 const NotificationsModal = ({ onClose }: NotifModalProps) => {
-  const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const token = localStorage.getItem("token");
+
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<IPostData | null>(null);
+  const [postLoading, setPostLoading] = useState(false);
+  const [postError, setPostError] = useState<string | null>(null);
 
   const fetchNotifications = async () => {
     try {
@@ -56,6 +63,44 @@ const NotificationsModal = ({ onClose }: NotifModalProps) => {
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  const handleClickOutside = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const handlePostClick = async (postId: string) => {
+    setPostLoading(true);
+    setPostError(null);
+    try {
+      const data = await getPostByIdApi(postId);
+      setSelectedPost(data);
+      setIsPostModalOpen(true);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        setPostError(err.message);
+      } else {
+        setPostError("Unknown error");
+      }
+    } finally {
+      setPostLoading(false);
+    }
+  };
+  const dispatch = useAppDispatch();
+
+  const handlePostDeleted = async (deletedId: string) => {
+    if (!token) return;
+    try {
+      setIsPostModalOpen(false);
+      setSelectedPost(null);
+      await dispatch(deletePost({ id: deletedId, token })).unwrap();
+      await dispatch(getAllPosts(token));
+      toast.success("Post successfully deleted");
+    } catch {
+      toast.error("Failed to delete post");
+    }
+  };
 
   return (
     <section className={styles.overlay} onClick={handleClickOutside}>
@@ -124,6 +169,7 @@ const NotificationsModal = ({ onClose }: NotifModalProps) => {
                       src={notif.post.imageUrls[0]}
                       alt="post preview"
                       className={styles.postImage}
+                      onClick={() => handlePostClick(notif.post!._id)}
                     />
                   )}
               </div>
@@ -131,6 +177,19 @@ const NotificationsModal = ({ onClose }: NotifModalProps) => {
           </div>
         )}
       </div>
+
+      {isPostModalOpen && selectedPost && (
+        <PostModal
+          onClose={() => {
+            setIsPostModalOpen(false);
+            setSelectedPost(null);
+          }}
+          post={selectedPost}
+          loading={postLoading}
+          error={postError}
+          onPostDeleted={handlePostDeleted}
+        />
+      )}
     </section>
   );
 };
