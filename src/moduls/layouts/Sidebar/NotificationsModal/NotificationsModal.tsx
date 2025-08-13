@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import Loader from "../../../../shared/components/Loader/Loader";
 import { Link } from "react-router-dom";
 import { getRelativeTime } from "../../../../shared/utils/dateUtils";
-
+import ichgramLogo from "../../../../assets/ichgramLogo.png";
 interface NotifModalProps {
   onClose: () => void;
 }
@@ -70,7 +70,17 @@ const NotificationsModal = ({ onClose }: NotifModalProps) => {
         {error && <p className={styles.error}>{error}</p>}
 
         {!loading && notifications.length === 0 && (
-          <p className={styles.empty}>No notifications yet.</p>
+          <div className={styles.empty}>
+            <img
+              src={ichgramLogo}
+              alt="ichgram-logo"
+              className={styles.emptyLogo}
+            />
+            <h3 className={styles.emptyTitle}>No notifications yet</h3>
+            <p className={styles.emptyText}>
+              Likes, comments, and follows will show up here.
+            </p>
+          </div>
         )}
 
         {!loading && notifications.length > 0 && (

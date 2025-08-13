@@ -9,7 +9,7 @@ export interface IValues {
 }
 
 export interface IRegisterData {
-  _id: string;
+  _id?: string;
   email: string;
   fullName: string;
   userName: string;
@@ -53,6 +53,12 @@ export const getAllUsersApi = async () => {
 };
 
 export const getUserApiById = async (id: string) => {
+  if (typeof id !== "string") {
+    console.error("Invalid id passed:", id);
+    console.trace();
+    throw new Error("Invalid user ID passed to getUserApiById");
+  }
+
   const { data } = await backendInstance.get(`/${id}`);
   return data;
 };

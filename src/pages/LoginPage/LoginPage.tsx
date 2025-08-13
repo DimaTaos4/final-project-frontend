@@ -8,14 +8,11 @@ import Button from "../../shared/components/Button/Button";
 import Form from "../../shared/components/Form/Form";
 import type { FormField } from "../../shared/components/Form/Form";
 
-// import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../shared/hooks/useAppDispatch";
-// import { selectUsers } from "../../redux/users/users.selector";
 import { loginUser, getAllUsers } from "../../redux/users/users.thunk";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
-  // const { loading, error, token, user } = useSelector(selectUsers);
 
   const fields: FormField[] = ["email", "password"];
 

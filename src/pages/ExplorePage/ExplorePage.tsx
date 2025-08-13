@@ -70,7 +70,7 @@ const ExplorePage = () => {
           <div
             key={post._id}
             className={styles.postContainer}
-            onClick={() => handleOpenPostModal(post._id, post.author)}
+            onClick={() => handleOpenPostModal(post._id, post.author as string)}
           >
             <img
               src={imageUrl}

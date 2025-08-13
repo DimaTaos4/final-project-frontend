@@ -1,12 +1,10 @@
 import styles from "./MessageWindow.module.css";
 import { AvatarIchgram } from "../../../shared/components/icons";
-import {
-  getMessagesFromChatId,
-  sendMessageApi,
-} from "../../../shared/api/messages/messagesRoutes";
-import { useEffect, useState } from "react";
+import { getMessagesFromChatId } from "../../../shared/api/messages/messagesRoutes";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import Loader from "../../../shared/components/Loader/Loader";
+import { io, Socket } from "socket.io-client";
+
 interface MessageType {
   _id: string;
   chatId: string;
@@ -28,40 +26,42 @@ interface UserType {
   avatarUrl?: string;
 }
 
+const { VITE_BACKEND_API_URL } = import.meta.env;
+
 const MessageWindow = () => {
   const token = localStorage.getItem("token");
   const currentUser = JSON.parse(localStorage.getItem("user") as string);
-
   const { chatId } = useParams();
 
   const [messageData, setMessageData] = useState<MessageType[]>([]);
   const [participants, setParticipants] = useState<UserType[]>([]);
   const [messageText, setMessageText] = useState("");
 
+  const socketRef = useRef<Socket | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   const partner = participants.find((p) => p._id !== currentUser._id);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!chatId) return;
 
-    if (!messageText.trim() || !token || !chatId || !partner) return;
+    const socket = io(VITE_BACKEND_API_URL);
+    socketRef.current = socket;
 
-    try {
-      await sendMessageApi(partner._id, messageText.trim(), token);
-      setMessageText("");
+    socket.emit("join-chat", chatId);
 
-      const { messages, participants } = await getMessagesFromChatId(
-        chatId,
-        token
-      );
-      setMessageData(messages);
-      setParticipants(participants);
-    } catch (error) {
-      console.error("Ошибка при отправке сообщения:", error);
-    }
-  };
+    socket.on("receive-message", (message: MessageType) => {
+      setMessageData((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [chatId]);
 
   useEffect(() => {
-    async function fetchMessages(chatId: string, token: string) {
+    const fetchMessages = async () => {
+      if (!chatId || !token) return;
       try {
         const { messages, participants } = await getMessagesFromChatId(
           chatId,
@@ -72,27 +72,34 @@ const MessageWindow = () => {
       } catch (error) {
         console.error(error);
       }
-    }
+    };
 
-    if (chatId && token) {
-      fetchMessages(chatId, token);
-    }
+    fetchMessages();
   }, [chatId, token]);
 
-  if (!partner) {
-    return (
-      <div className={styles.messageWindow}>
-        <Loader loading={!partner} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messageData]);
 
-  const createdAt = messageData[0]?.createdAt;
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!messageText.trim() || !token || !chatId || !partner) return;
 
-  const element = messageData.map((message) => {
-    const isOwnMessage = message.sender._id === currentUser._id;
+    const messageToSend = {
+      chatId,
+      senderId: currentUser._id,
+      recipientId: partner._id,
+      text: messageText.trim(),
+    };
 
-    return isOwnMessage ? (
+    socketRef.current?.emit("send-message", messageToSend);
+    setMessageText("");
+  };
+
+  const messageElements = messageData.map((message) => {
+    const isOwn = message.sender._id === currentUser._id;
+
+    return isOwn ? (
       <div key={message._id} className={styles.messageOutcoming}>
         <p className={styles.textOutgoing}>{message.text}</p>
         {currentUser?.avatarUrl ? (
@@ -121,7 +128,7 @@ const MessageWindow = () => {
           <AvatarIchgram
             size={28}
             color="white"
-            className={styles.avatarRight}
+            className={styles.avatarLeft}
           />
         )}
         <p className={styles.textIncoming}>{message.text}</p>
@@ -132,7 +139,7 @@ const MessageWindow = () => {
   return (
     <section className={styles.messageWindow}>
       <div className={styles.headerWindow}>
-        {partner.avatarUrl ? (
+        {partner?.avatarUrl ? (
           <img
             src={partner.avatarUrl}
             alt="avatar"
@@ -141,12 +148,12 @@ const MessageWindow = () => {
         ) : (
           <AvatarIchgram size={44} color="white" />
         )}
-        <h3 className={styles.usernameSender}>{partner.userName}</h3>
+        <h3 className={styles.usernameSender}>{partner?.userName}</h3>
       </div>
 
       <div className={styles.messageBlock}>
         <div className={styles.infoPartner}>
-          {partner.avatarUrl ? (
+          {partner?.avatarUrl ? (
             <img
               src={partner.avatarUrl}
               alt="avatar"
@@ -155,14 +162,14 @@ const MessageWindow = () => {
           ) : (
             <AvatarIchgram size={96} color="white" />
           )}
-          <span className={styles.fullName}>{partner.fullName}</span>
-          <span className={styles.usernameInChat}>{partner.userName}</span>
-          <a href={`/user/${partner._id}`} className={styles.linkToProfile}>
+          <span className={styles.fullName}>{partner?.fullName}</span>
+          <span className={styles.usernameInChat}>{partner?.userName}</span>
+          <a href={`/user/${partner?._id}`} className={styles.linkToProfile}>
             View Profile
           </a>
           <span className={styles.firstDate}>
-            {createdAt
-              ? new Date(createdAt).toLocaleString("en-US", {
+            {messageData[0]?.createdAt
+              ? new Date(messageData[0].createdAt).toLocaleString("en-US", {
                   month: "short",
                   day: "2-digit",
                   year: "numeric",
@@ -174,7 +181,10 @@ const MessageWindow = () => {
           </span>
         </div>
 
-        <div className={styles.chatMessages}>{element}</div>
+        <div className={styles.chatMessages}>
+          {messageElements}
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
       <form className={styles.footer} onSubmit={handleSendMessage}>

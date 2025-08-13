@@ -39,13 +39,13 @@ const PostModal = ({
   const [likeError, setLikeError] = useState<AxiosError | null>(null);
   const [localPost, setLocalPost] = useState<IPostData>(post);
 
-  const { dataUser } = useDataUser(post.author as string);
+  const { dataUser } = useDataUser(
+    typeof post?.author === "object" ? post.author._id : post?.author
+  );
 
   const { user } = useAuth();
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    console.log(post);
-  });
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

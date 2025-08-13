@@ -22,7 +22,7 @@ import ExplorePage from "../ExplorePage/ExplorePage";
 import MessagePage from "../MessagePage/MessagePage";
 import MessageWindow from "../MessagePage/MessageWindow/MessageWindow";
 import EmptyChat from "../MessagePage/EmptyChat/EmptyChat";
-
+import LearnMorePage from "../LearnMorePage/LearnMorePage";
 type NavigationProps = {
   isModalOpen: boolean;
   toggleModal: () => void;
@@ -65,6 +65,7 @@ const Navigation = ({
         <Route path="/legal/cookies" element={<CookiesPolicyPage />} />
         <Route path="/legal/terms" element={<TermsPage />} />
         <Route path="/legal/privacy" element={<PrivacyPage />} />
+        <Route path="/learn-more" element={<LearnMorePage />} />
       </Routes>
 
       {isModalOpen && <CreateModal onClose={toggleModal} />}

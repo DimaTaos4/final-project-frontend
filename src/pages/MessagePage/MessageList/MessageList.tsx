@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { AvatarIchgram } from "../../../shared/components/icons";
 import { getChatsByUserId } from "../../../shared/api/chats/chatsRoutes";
 import { useEffect, useState } from "react";
-
+import ichgramLogo from "../../../assets/ichgramLogo.png";
 export interface IUser {
   _id: string;
   fullName: string;
@@ -53,55 +53,69 @@ const MessageList = () => {
     <section className={styles.messageList}>
       <h2 className={styles.username}>{user.userName}</h2>
 
-      {chats.map((chat) => {
-        const partner = chat.participants.find((p) => p._id !== user._id);
+      {chats.length > 0 ? (
+        chats.map((chat) => {
+          const partner = chat.participants.find((p) => p._id !== user._id);
 
-        return (
-          <NavLink
-            to={`/messages/${chat._id}`}
-            className={styles.linkMessage}
-            key={chat._id}
-          >
-            <div className={styles.messageInfo}>
-              {partner?.avatarUrl ? (
-                <img
-                  src={partner.avatarUrl}
-                  alt="avatar"
-                  className={styles.avatar}
-                />
-              ) : (
-                <AvatarIchgram
-                  size={56}
-                  color="white"
-                  className={styles.avatar}
-                />
-              )}
+          return (
+            <NavLink
+              to={`/messages/${chat._id}`}
+              className={styles.linkMessage}
+              key={chat._id}
+            >
+              <div className={styles.messageInfo}>
+                {partner?.avatarUrl ? (
+                  <img
+                    src={partner.avatarUrl}
+                    alt="avatar"
+                    className={styles.avatar}
+                  />
+                ) : (
+                  <AvatarIchgram
+                    size={56}
+                    color="white"
+                    className={styles.avatar}
+                  />
+                )}
 
-              <div className={styles.messageText}>
-                <span className={styles.usernameSender}>
-                  {partner?.userName || "Unknown"}
-                </span>
-
-                <div className={styles.infoSenderBlock}>
-                  <span className={styles.infoSender}>
-                    {chat.lastMessage?.text
-                      ? `${chat.lastMessage.text.slice(0, 40)}...`
-                      : "No messages yet."}
+                <div className={styles.messageText}>
+                  <span className={styles.usernameSender}>
+                    {partner?.userName || "Unknown"}
                   </span>
-                  <span className={styles.sendTime}>
-                    {chat.updatedAt
-                      ? new Date(chat.updatedAt).toLocaleTimeString("en-US", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
-                      : ""}
-                  </span>
+
+                  <div className={styles.infoSenderBlock}>
+                    <span className={styles.infoSender}>
+                      {chat.lastMessage?.text
+                        ? `${chat.lastMessage.text.slice(0, 40)}...`
+                        : "No messages yet."}
+                    </span>
+                    <span className={styles.sendTime}>
+                      {chat.updatedAt
+                        ? new Date(chat.updatedAt).toLocaleTimeString("en-US", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : ""}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </NavLink>
-        );
-      })}
+            </NavLink>
+          );
+        })
+      ) : (
+        <div className={styles.emptyState}>
+          <img
+            src={ichgramLogo}
+            alt="Ichgram logo"
+            className={styles.emptyLogo}
+          />
+          <h3 className={styles.emptyTitle}>No messages yet</h3>
+          <p className={styles.emptyText}>
+            Start a conversation with your friends and see your messages here.
+          </p>
+        </div>
+      )}
     </section>
   );
 };

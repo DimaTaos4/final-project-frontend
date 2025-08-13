@@ -17,8 +17,9 @@ const CreateModal = ({ onClose }: { onClose: () => void }) => {
   const { token } = useAuth();
   const dispatch = useAppDispatch();
   const userFromStorage = localStorage.getItem("user");
-  const userId = userFromStorage ? JSON.parse(userFromStorage).id : null;
+  const userId = userFromStorage ? JSON.parse(userFromStorage)?._id : null;
   const { dataUser } = useDataUser(userId);
+  console.log(userId);
 
   const { register, handleSubmit, watch, reset, setValue } = useForm();
   const caption = watch("caption") || "";

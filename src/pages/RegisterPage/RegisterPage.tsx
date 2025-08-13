@@ -55,17 +55,16 @@ const RegisterPage = () => {
         <p className={styles.info1}>
           People who use our service may have uploaded{" "}
           <span>
-            your contact information to Instagram. <a href="#">Learn More</a>
+            your contact information to Instagram.{" "}
+            <a href="/learn-more">Learn More</a>
           </span>
         </p>
 
         <div className={styles.info2}>
           <p>
-            By signing up, you agree to our <a href="#">Terms</a>,{" "}
-            <a href="#">Privacy</a>
-          </p>
-          <p>
-            <a href="#">Policy</a> and <a href="#">Cookies Policy</a>
+            By signing up, you agree to our <a href="/legal/terms">Terms</a>,
+            <a href="/legal/privacy"> Privacy Policy</a> and
+            <a href="/legal/cookies"> Cookies Policy</a>
           </p>
         </div>
 
