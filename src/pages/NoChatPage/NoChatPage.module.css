@@ -1,0 +1,54 @@
+.noChat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 2rem;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+    background: linear-gradient(145deg, #ffffff, #f9f9ff);
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.noChat h2 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    color: #ff5c5c;
+    text-shadow: 1px 1px 2px rgba(255, 92, 92, 0.4);
+}
+
+.noChat p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #6d6d6d;
+}
+
+.backLink {
+    padding: 0.75rem 1.5rem;
+    background-color: #ff5c5c;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 92, 92, 0.3);
+}
+
+.backLink:hover {
+    background-color: #ff3b3b;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -4,7 +4,8 @@ import { getMessagesFromChatId } from "../../../shared/api/messages/messagesRout
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
-
+import NoChatPage from "../../NoChatPage/NoChatPage";
+import axios from "axios";
 interface MessageType {
   _id: string;
   chatId: string;
@@ -58,6 +59,31 @@ const MessageWindow = () => {
       socket.disconnect();
     };
   }, [chatId]);
+  const [chatNotFound, setChatNotFound] = useState(false);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!chatId || !token) return;
+      try {
+        const { messages, participants } = await getMessagesFromChatId(
+          chatId,
+          token
+        );
+        setMessageData(messages);
+        setParticipants(participants);
+      } catch (error) {
+        console.error(error);
+
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          setChatNotFound(true);
+        } else {
+          setChatNotFound(true);
+        }
+      }
+    };
+
+    fetchMessages();
+  }, [chatId, token]);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -95,7 +121,9 @@ const MessageWindow = () => {
     socketRef.current?.emit("send-message", messageToSend);
     setMessageText("");
   };
-
+  if (chatNotFound) {
+    return <NoChatPage />;
+  }
   const messageElements = messageData.map((message) => {
     const isOwn = message.sender._id === currentUser._id;
 
