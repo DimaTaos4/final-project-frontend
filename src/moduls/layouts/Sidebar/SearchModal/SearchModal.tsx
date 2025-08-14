@@ -31,7 +31,6 @@ const SearchModal = ({ onClose }: Props) => {
     }
   };
 
-  // Fetch recent users from localStorage
   useEffect(() => {
     if (!recentKey) return;
     const stored = localStorage.getItem(recentKey);
@@ -40,7 +39,6 @@ const SearchModal = ({ onClose }: Props) => {
     }
   }, [recentKey]);
 
-  // Debounced user search
   useEffect(() => {
     const delay = setTimeout(async () => {
       if (userValue.trim() === "") {
@@ -64,7 +62,6 @@ const SearchModal = ({ onClose }: Props) => {
     return () => clearTimeout(delay);
   }, [userValue]);
 
-  // Save updated recent users to localStorage
   const saveRecentToStorage = (updated: IRegisterData[]) => {
     if (recentKey) {
       localStorage.setItem(recentKey, JSON.stringify(updated));
@@ -112,7 +109,6 @@ const SearchModal = ({ onClose }: Props) => {
           />
         </form>
 
-        {/* Recent Users */}
         {currentUserId && recentUsers.length > 0 && (
           <>
             <p className={styles.recentText}>Recent</p>
@@ -141,7 +137,7 @@ const SearchModal = ({ onClose }: Props) => {
                       className={styles.removeIcon}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleRemoveRecent(recentUser._id);
+                        handleRemoveRecent(recentUser._id as string);
                       }}
                     />
                   </div>
