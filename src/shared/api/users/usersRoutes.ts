@@ -68,7 +68,6 @@ export const editUserApi = async (token: string, formData: FormData) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
   return data;
 };
 

@@ -115,7 +115,6 @@ const UserPage = () => {
     await dispatch(getUserById(id));
   };
 
-  
   const navigate = useNavigate();
 
   const handleToMessage = async (recipientId: string, token: string) => {
@@ -214,7 +213,7 @@ const UserPage = () => {
             </p>
           </div>
           <p className={styles.textAboutUser}>{dataUser?.bio}</p>
-          <a href="/" className={styles.link}>
+          <a href={`${dataUser.link}`} className={styles.link} target="_blank">
             {dataUser?.link}
           </a>
         </div>

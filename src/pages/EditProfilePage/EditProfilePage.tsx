@@ -7,14 +7,14 @@ import { logout } from "../../redux/users/users.slice";
 import type { IValues } from "../../shared/api/users/usersRoutes";
 import { AxiosError } from "axios";
 import {
-  editUserApi,
+  // editUserApi,
   getUserApiById,
 } from "../../shared/api/users/usersRoutes";
 import { useNavigate } from "react-router-dom";
 import { AvatarIchgram } from "../../shared/components/icons";
-
 import type { IRegisterData } from "../../shared/api/users/usersRoutes";
 
+import { editUserProfile } from "../../redux/users/users.thunk";
 const MAX_BIO_LENGTH = 150;
 
 const EditProfilePage = () => {
@@ -70,20 +70,22 @@ const EditProfilePage = () => {
       if (selectedFile) {
         formData.append("avatar", selectedFile);
       }
-
       if (values.userName) formData.append("userName", values.userName);
       if (values.link) formData.append("link", values.link);
       if (values.bio) formData.append("bio", values.bio);
       if (values.removeAvatar) formData.append("removeAvatar", "true");
 
-      const data = await editUserApi(token as string, formData);
+      const resultAction = await dispatch(
+        editUserProfile({ token: token as string, formData })
+      );
 
-      if (user) {
-        const updated = { ...user, avatarUrl: data.avatarUrl };
-        localStorage.setItem("user", JSON.stringify(updated));
+      if (editUserProfile.fulfilled.match(resultAction)) {
+        const updatedUser = resultAction.payload.user;
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        navigate("/myprofile");
+      } else {
+        throw new Error("Failed to update profile");
       }
-
-      navigate("/myprofile");
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Unexpected error"));
     } finally {

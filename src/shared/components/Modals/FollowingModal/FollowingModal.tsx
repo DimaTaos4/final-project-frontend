@@ -54,7 +54,7 @@ const FollowingModal = ({
         <div className={styles.amountFollowers}>
           <p>{dataFollowing.length} Following</p>
         </div>
-        {dataFollowing ? (
+        {dataFollowing.length ? (
           <div className={styles.listFollowers}>
             {dataFollowing.map((data) => (
               <div className={styles.followInfo} key={data._id}>

@@ -7,6 +7,7 @@ import {
   getAllUsersApi,
   followUserApi,
   unfollowUserApi,
+  editUserApi,
 } from "../../shared/api/users/usersRoutes";
 import type {
   ILoginData,
@@ -16,6 +17,11 @@ import type {
 export interface IFollowProps {
   userId: string;
   token: string;
+}
+
+export interface EditProps {
+  token: string;
+  formData: FormData;
 }
 
 export const registerUser = createAsyncThunk(
@@ -82,6 +88,22 @@ export const getUserById = createAsyncThunk(
           error?.response?.data?.message || "Something went wrong"
         );
       }
+    }
+  }
+);
+
+export const editUserProfile = createAsyncThunk(
+  "auth/editUser",
+  async ({ token, formData }: EditProps, { rejectWithValue }) => {
+    try {
+      const result = await editUserApi(token, formData);
+      return result;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error?.response?.data?.message || "Edit failed");
+      }
+
+      return rejectWithValue("Unknown error occurred during logining");
     }
   }
 );
