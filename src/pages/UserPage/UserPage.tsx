@@ -153,7 +153,22 @@ const UserPage = () => {
               className={styles.imageAva}
             />
           ) : (
-            <AvatarIchgram size={150} color="white" className="avatarImage" />
+            <>
+              <div className={styles.ava1}>
+                <AvatarIchgram
+                  size={150}
+                  color="white"
+                  className="avatarImage"
+                />
+              </div>
+              <div className={styles.ava2}>
+                <AvatarIchgram
+                  size={84}
+                  color="white"
+                  className="avatarImage"
+                />
+              </div>
+            </>
           )}
         </div>
         <div className={styles.infoActionBlock}>

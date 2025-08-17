@@ -135,3 +135,17 @@
     font-weight: 500;
     max-width: 500px;
 }
+
+@media (max-width:1066px) {
+    .userPublications {
+        margin-top: 0;
+    }
+}
+
+@media (max-width:400px) {
+    .image {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+}
