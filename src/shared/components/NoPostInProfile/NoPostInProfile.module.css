@@ -40,3 +40,13 @@
         transform: translateY(0);
     }
 }
+
+@media (max-width:500px) {
+    .title {
+        font-size: 18px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+}

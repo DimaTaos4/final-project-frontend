@@ -61,3 +61,21 @@
     animation: blink 1.2s ease-in-out infinite;
     color: #3f3f3f;
 }
+
+@media(max-width:1000px) {
+    .publications {
+        margin-top: 20px;
+    }
+
+}
+
+@media(max-width:946px) {
+    .publications {
+        margin-top: 20px;
+    }
+
+    .postImage {
+        width: 70%;
+        margin: 0 auto;
+    }
+}

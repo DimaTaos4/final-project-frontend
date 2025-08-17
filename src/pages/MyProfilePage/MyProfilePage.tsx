@@ -131,6 +131,13 @@ const MyProfilePage = () => {
                       className="avatarImage"
                     />
                   </div>
+                  <div className={styles.avaMedia2}>
+                    <AvatarIchgram
+                      size={64}
+                      color="white"
+                      className="avatarImage"
+                    />
+                  </div>
                 </>
               )}
             </div>

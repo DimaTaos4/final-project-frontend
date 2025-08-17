@@ -31,8 +31,19 @@
     color: #737373;
 }
 
-@media (max-width:538px) {
-    .footer {
-        display: none;
+@media (max-width:488px) {
+    .footerMenu {
+
+        gap: 24px;
+    }
+}
+
+@media (max-width:404px) {
+    .footerMenu {
+        gap: 20px;
+    }
+
+    .footerItem {
+        font-size: 10px;
     }
 }

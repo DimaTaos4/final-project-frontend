@@ -164,3 +164,15 @@
         transform: scale(1);
     }
 }
+
+@media (max-width:538px) {
+    .notificationsModal {
+        width: 307px;
+    }
+}
+
+@media(max-width:350px) {
+    .notificationsModal {
+        width: 250px;
+    }
+}

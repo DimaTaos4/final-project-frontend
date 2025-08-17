@@ -113,3 +113,15 @@
     margin-top: 10px;
     text-align: center;
 }
+
+@media(max-width:482px) {
+    .searchModal {
+        width: 307px;
+    }
+}
+
+@media(max-width:350px) {
+    .searchModal {
+        width: 250px;
+    }
+}

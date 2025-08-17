@@ -15,10 +15,8 @@
     }
 }
 
-@media (max-width:538px) {
+@media (max-width:518px) {
     .pageLayout {
-        display: flex;
-        flex-direction: column-reverse;
-        height: 100vh;
+        grid-template-columns: 56px 1fr;
     }
 }
