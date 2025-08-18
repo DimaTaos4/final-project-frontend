@@ -195,3 +195,15 @@
     }
 
 }
+
+@media(max-width:457px) {
+    .myProfileAbout {
+        white-space: normal;
+        word-break: break-word;
+        font-size: 12px;
+    }
+
+    .link {
+        font-size: 12px;
+    }
+}

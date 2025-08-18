@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import NoChatPage from "../../NoChatPage/NoChatPage";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 interface MessageType {
   _id: string;
   chatId: string;
@@ -42,6 +44,7 @@ const MessageWindow = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const partner = participants.find((p) => p._id !== currentUser._id);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!chatId) return;
@@ -167,6 +170,13 @@ const MessageWindow = () => {
   return (
     <section className={styles.messageWindow}>
       <div className={styles.headerWindow}>
+        <button
+          className={styles.backBtn}
+          onClick={() => navigate("/messages")}
+        >
+          <ArrowLeft />
+        </button>
+
         {partner?.avatarUrl ? (
           <img
             src={partner.avatarUrl}

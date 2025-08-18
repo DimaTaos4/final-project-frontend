@@ -172,3 +172,48 @@
 .btnSendMessage:hover {
     background-color: #007cd1;
 }
+
+.backBtn {
+    display: none;
+    background: none;
+    border: none;
+    color: #0095f6;
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+@media (max-width: 895px) {
+    .backBtn {
+        display: inline;
+    }
+}
+
+@media (max-width: 518px) {
+    .avatarPartner {
+        width: 80px;
+        height: 80px;
+        margin-top: 50px;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+    }
+
+    .linkToProfile {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .fullName {
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    .usernameInChat {
+        font-size: 12px;
+        margin-top: 4px;
+    }
+}

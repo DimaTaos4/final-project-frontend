@@ -168,11 +168,30 @@
 @media (max-width:538px) {
     .notificationsModal {
         width: 307px;
+        padding: 20px 24px 0 10px;
     }
-}
 
-@media(max-width:350px) {
-    .notificationsModal {
-        width: 250px;
+    .notificationsBlock {
+        gap: 24px;
+    }
+
+    .usernameLink {
+        font-size: 12px;
+    }
+
+    .actionTime {
+        font-size: 12px;
+    }
+
+    .infoText {
+        font-size: 12px;
+    }
+
+    .infoUser {
+        gap: 4px;
+    }
+
+    .textInfo {
+        width: 200px;
     }
 }

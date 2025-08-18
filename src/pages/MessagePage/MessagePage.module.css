@@ -2,3 +2,37 @@
     display: grid;
     grid-template-columns: 397px 1fr;
 }
+
+.messageListWrapper {
+    display: block;
+}
+
+.outletWrapper {
+    display: block;
+}
+
+@media (max-width: 1074px) {
+    .messagePage {
+        grid-template-columns: 260px 1fr;
+    }
+}
+
+@media (max-width: 895px) {
+    .messagePage {
+        display: block;
+        width: 100%;
+    }
+
+    .messageListWrapper,
+    .outletWrapper {
+        width: 100%;
+    }
+
+    .hideOnMobile {
+        display: none;
+    }
+
+    .showOnMobile {
+        display: block;
+    }
+}

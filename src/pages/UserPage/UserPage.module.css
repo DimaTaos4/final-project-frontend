@@ -141,11 +141,23 @@
     .userPage {
         padding: 38px 40px 0 40px;
     }
+
+    .imageAva {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+    }
 }
 
 @media (max-width:923px) {
     .userPublications {
         margin-top: 20px;
+    }
+
+    .imageAva {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
     }
 
     .ava1 {
@@ -220,6 +232,17 @@
 }
 
 @media (max-width:409px) {
+
+
+    .imageAva {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        position: relative;
+        left: 25px;
+        top: 16px;
+    }
+
     .infoAboutUser p {
         display: flex;
         flex-direction: column;
@@ -250,5 +273,10 @@
     .infoAboutUser {
         gap: 10px;
         margin-bottom: 0px;
+    }
+
+    .textAboutUser {
+        margin-top: 10px;
+        font-size: 12px;
     }
 }
