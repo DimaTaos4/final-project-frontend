@@ -1,69 +1,92 @@
-# React + TypeScript + Vite
+# ✨ Ichgram Frontend – Instagram Clone UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** of **Ichgram** — a full-stack Instagram clone built with modern technologies. This React + TypeScript client handles all user interactions, UI/UX logic, and integrates with the backend API for real-time chat, social features, authentication, and media management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔐 **Authentication**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  - Sign up, login, logout, email verification, password reset
+  - JWT token storage with secure API integration
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 🧑‍🤝‍🧑 **Social Interactions**
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+  - Follow/unfollow users
+  - Post creation, editing, deletion
+  - Like and comment on posts
+  - Profile view and edit
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 💬 **Real-Time Chat**
+
+  - One-to-one messaging using **Socket.IO**
+
+- 🖼️ **Media Support**
+
+  - Upload images with preview
+  - Optimized cloud-hosted images from Cloudinary
+
+- 📱 **Responsive Design**
+
+  - Fully responsive across mobile, tablet, and desktop
+
+- 🔍 **User Search**
+
+  - Find other users by username
+
+- 🌈 **Modern UI/UX**
+  - Clean interface using **Lucide Icons**, **React Spinners**, **Emoji Picker**, and **React Toastify**
+
+---
+
+## ⚙️ Tech Stack
+
+| Layer         | Tech                                                 |
+| ------------- | ---------------------------------------------------- |
+| **Framework** | React 19 + TypeScript                                |
+| **Bundler**   | Vite                                                 |
+| **Routing**   | React Router v7                                      |
+| **State**     | Redux Toolkit + React Hook Form                      |
+| **API**       | Axios (connected to Ichgram Backend)                 |
+| **Real-Time** | socket.io-client                                     |
+| **UI**        | Lucide Icons, Emoji Picker, Toastify, React Spinners |
+| **Others**    | clsx, nanoid                                         |
+
+---
+
+## 📦 Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/DimaTaos4/final-project-frontend.git
+cd frontend-project
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Project Structure
+src/
+├── assets/         # Static files
+├── components/     # Reusable UI components
+├── redux/       # Redux slices & features
+├── hooks/          # Custom React hooks
+├── pages/          # Route-based pages
+├── api/       # API calls (Axios)
+├── utils/          # Utility functions
+├── App.tsx
+└── main.tsx
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔗 Related Links
+🌍 Live Demo: https://final-project-frontend-ashy.vercel.app
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧠 What I Learned
+Through this project, I enhanced my skills in:
+Modern state and form management with Redux Toolkit + React Hook Form
+Real-time client-server communication with Socket.IO
+Working with cloud image APIs (Cloudinary)
+Building a fully responsive, interactive UI from scratch
